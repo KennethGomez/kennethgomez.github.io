@@ -1,8 +1,15 @@
 const path = require('path');
+const fs = require('fs');
 
 const ClosurePlugin = require('closure-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const outputPath = path.resolve(__dirname, './dist');
+
+if (fs.existsSync(outputPath)) {
+    fs.rmdirSync(path.resolve(__dirname, './dist'), { recursive: true });
+}
 
 module.exports = (env, argv) => ({
     mode: 'development',
@@ -11,7 +18,7 @@ module.exports = (env, argv) => ({
     entry: './index.ts',
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: '[name].bundle.js',
+        filename: '[name].bundle.[hash].js',
     },
     module: {
         rules: [
