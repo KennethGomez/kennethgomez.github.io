@@ -1,7 +1,3 @@
-export class a {
-    public constructor(b: string) {
-        console.log(b);
-    }
-}
+import { A } from './test/a';
 
-new a('init');
+const b = new A('init b');
