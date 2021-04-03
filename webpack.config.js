@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env, argv) => ({
     mode: 'development',
-    devtool: argv === 'development' ? 'source-map' : undefined,
+    devtool: argv === 'production' ? 'source-map' : undefined,
     context: path.resolve(__dirname, './src'),
     entry: './index.ts',
     output: {
