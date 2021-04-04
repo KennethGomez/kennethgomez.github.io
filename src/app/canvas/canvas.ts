@@ -16,6 +16,8 @@ export class Canvas extends Module {
     }
 
     public init() {
+        this._resize();
+
         this.space.init();
     }
 
@@ -45,6 +47,11 @@ export class Canvas extends Module {
         }
 
         return context;
+    }
+
+    private _resize() {
+        this._view.width = window.innerWidth;
+        this._view.height = window.innerHeight;
     }
 
     public get space(): Space {
