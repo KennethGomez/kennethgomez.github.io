@@ -1,27 +1,37 @@
+import * as PIXI from 'pixi.js';
+
 import { Module } from '../api/module/module.abstract';
 
 import { Space } from './space/space';
 
 export class Canvas extends Module {
-    private readonly _view: HTMLCanvasElement;
-    private readonly _context: CanvasRenderingContext2D;
+    private readonly _app: PIXI.Application;
+
+    private readonly _viewContainer: HTMLCanvasElement;
 
     public constructor() {
         super([
             new Space(),
         ]);
 
-        this._view = this.view;
-        this._context = this.context;
+        this._app = new PIXI.Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            backgroundColor: 0x060505,
+        });
+
+        this._viewContainer = this.viewContainer;
     }
 
     protected onInit() {
-        this._resize();
+        this._viewContainer.appendChild(this._app.view);
+
+        this._app.stage.addChild(this.space.container);
     }
 
-    public get view(): HTMLCanvasElement {
-        if (this._view) {
-            return this._view;
+    public get viewContainer(): HTMLCanvasElement {
+        if (this._viewContainer) {
+            return this._viewContainer;
         }
 
         const view = document.getElementById('background-canvas');
@@ -33,26 +43,11 @@ export class Canvas extends Module {
         return view as HTMLCanvasElement;
     }
 
-    public get context(): CanvasRenderingContext2D {
-        if (this._context) {
-            return this._context;
-        }
-
-        const context = this._view.getContext('2d');
-
-        if (!context) {
-            throw new Error('Cannot retrieve 2d context on canvas');
-        }
-
-        return context;
-    }
-
-    private _resize() {
-        this._view.width = window.innerWidth;
-        this._view.height = window.innerHeight;
-    }
-
     public get space(): Space {
         return this.getSubmodule(Space);
+    }
+
+    public get app(): PIXI.Application {
+        return this._app;
     }
 }

@@ -1,5 +1,6 @@
+import * as PIXI from 'pixi.js';
+
 import { Module } from '../../api/module/module.abstract';
-import { toHex } from '../../utils/color';
 import { App } from '../../app';
 
 import { Star } from './star/star';
@@ -11,11 +12,13 @@ export class Space extends Module {
     public static readonly STAR_RATIO = 0.005;
 
     private readonly _stars: Star[];
+    private readonly _container: PIXI.Container;
 
     public constructor() {
         super();
 
         this._stars = [];
+        this._container = new PIXI.Container();
     }
 
     protected onInit(): void {
@@ -24,10 +27,10 @@ export class Space extends Module {
     }
 
     private _populateStars() {
-        const { width, height } = App.instance.canvas.view;
+        const { innerWidth, innerHeight } = window;
 
         // We multiply by devicePixelRatio to keep the same ratio even with screen zoom
-        const spaceSize = width * height * Space.STAR_RATIO * window.devicePixelRatio;
+        const spaceSize = innerWidth * innerHeight * Space.STAR_RATIO * window.devicePixelRatio;
 
         for (let i = 0; i < spaceSize; i++) {
             const star = Star.random();
@@ -37,16 +40,34 @@ export class Space extends Module {
     }
 
     private _drawSpace() {
-        const ctx = App.instance.canvas.context;
+        const texture = this._getStarTexture();
 
         for (const {
             position: { x, y }, size, brightness, color,
         } of this._stars) {
-            ctx.fillStyle = toHex(color, brightness);
+            const star = new PIXI.Sprite(texture);
 
-            ctx.beginPath();
-            ctx.arc(x - size / 2, y - size / 2, size, 0, 2 * Math.PI);
-            ctx.fill();
+            star.x = x - size / 2;
+            star.y = y - size / 2;
+
+            star.tint = color;
+            star.alpha = brightness / 0xFF;
+
+            this._container.addChild(star);
         }
+    }
+
+    private _getStarTexture(): PIXI.Texture {
+        const g = new PIXI.Graphics();
+
+        g.beginFill(0xFFFFFF);
+        g.drawCircle(0, 0, 0.75);
+        g.endFill();
+
+        return App.instance.canvas.app.renderer.generateTexture(g);
+    }
+
+    public get container(): PIXI.Container {
+        return this._container;
     }
 }

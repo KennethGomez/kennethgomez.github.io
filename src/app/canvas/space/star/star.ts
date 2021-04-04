@@ -11,9 +11,11 @@ export class Star {
      * @member Array
      */
     public static readonly STAR_COLORS = [
-        [2, 0x695314],
-        [30, 0xABCDEF],
-        [30, 0xFFFFFF],
+        [2, 0xEFD4AB], // orange
+        [2, 0xEFABAB], // red
+        [10, 0xEFABE8], // purple
+        [30, 0xABCDEF], // blue
+        [30, 0xFFFFFF], // white
     ]
 
     private static readonly _starColors: number[] = Star._computeStarColorProbabilities();
@@ -29,8 +31,7 @@ export class Star {
     }
 
     public static random(): Star {
-        const w = App.instance.canvas.view.width;
-        const h = App.instance.canvas.view.height;
+        const { innerWidth, innerHeight } = window;
 
         let brightness = getBetween(1, 0xFF);
 
@@ -41,13 +42,13 @@ export class Star {
         const color = this._starColors[colorIdx];
 
         return new Star({
-            x: getBetween(0, w),
-            y: getBetween(0, h),
+            x: getBetween(0, innerWidth),
+            y: getBetween(0, innerHeight),
         }, 1, brightness, color);
     }
 
     private static _computeStarColorProbabilities(): number[] {
-        const colorProbabilities = Star.STAR_COLORS;
+        const colorProbabilities = this.STAR_COLORS;
         const lastColor = colorProbabilities[colorProbabilities.length - 1][1];
 
         const colors = Array(100).fill(lastColor);
