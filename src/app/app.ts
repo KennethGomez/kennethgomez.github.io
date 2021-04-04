@@ -14,10 +14,6 @@ export class App extends Module {
         ]);
     }
 
-    public init() {
-        this.canvas.init();
-    }
-
     public get canvas(): Canvas {
         return this.getSubmodule(Canvas);
     }

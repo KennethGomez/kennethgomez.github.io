@@ -11,7 +11,17 @@ export abstract class Module {
         }
     }
 
-    public abstract init(): void;
+    protected onInit() {
+        // To be implemented by module
+    }
+
+    public init(): void {
+        this.onInit();
+
+        for (const submodule of this._submodules.values()) {
+            submodule.init();
+        }
+    }
 
     protected getSubmodule<T extends Module>(submodule: typeof Module): T {
         return this._submodules.get(submodule.name) as T;

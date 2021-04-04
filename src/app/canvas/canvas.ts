@@ -15,10 +15,8 @@ export class Canvas extends Module {
         this._context = this.context;
     }
 
-    public init() {
+    protected onInit() {
         this._resize();
-
-        this.space.init();
     }
 
     public get view(): HTMLCanvasElement {

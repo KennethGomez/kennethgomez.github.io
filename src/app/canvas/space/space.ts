@@ -18,7 +18,7 @@ export class Space extends Module {
         this._stars = [];
     }
 
-    public init(): void {
+    protected onInit(): void {
         this._populateStars();
         this._drawSpace();
     }
