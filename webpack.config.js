@@ -52,9 +52,6 @@ module.exports = (env, argv) => ({
             languageIn: 'ECMASCRIPT_NEXT',
             languageOut: 'ECMASCRIPT5_STRICT',
         })] : [],
-        splitChunks: {
-            chunks: 'all',
-        },
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
