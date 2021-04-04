@@ -1,5 +1,5 @@
 import '../styles/index.sass';
 
-import { A } from './test/a';
+import { App } from './app/app';
 
-const b = new A('init b');
+App.instance.init();

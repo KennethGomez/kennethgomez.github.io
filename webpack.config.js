@@ -13,7 +13,7 @@ if (fs.existsSync(outputPath)) {
 
 module.exports = (env, argv) => ({
     mode: 'development',
-    devtool: argv === 'production' ? 'source-map' : undefined,
+    devtool: 'source-map',
     context: path.resolve(__dirname, './src'),
     entry: './index.ts',
     output: {
