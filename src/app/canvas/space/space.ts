@@ -1,13 +1,14 @@
 import { Module } from '../../api/module/module.abstract';
-import { Position } from '../../api/canvas/canvas.types';
-import { getBetween } from '../../utils/numbers';
 import { toHex } from '../../utils/color';
 import { App } from '../../app';
 
 import { Star } from './star/star';
 
 export class Space extends Module {
-    public static readonly STAR_COUNT = 2500;
+    /**
+     * Amount of stars per pixel²
+     */
+    public static readonly STAR_RATIO = 0.005;
 
     private readonly _stars: Star[];
 
@@ -23,24 +24,16 @@ export class Space extends Module {
     }
 
     private _populateStars() {
-        for (let i = 0; i < Space.STAR_COUNT; i++) {
-            const position = this._getStarPosition();
-            const brightness = getBetween(0, 0xFF);
+        const { width, height } = App.instance.canvas.view;
 
-            const star = new Star(position, 1, brightness, 0xABCDEF);
+        // We multiply by devicePixelRatio to keep the same ratio even with screen zoom
+        const spaceSize = width * height * Space.STAR_RATIO * window.devicePixelRatio;
+
+        for (let i = 0; i < spaceSize; i++) {
+            const star = Star.random();
 
             this._stars.push(star);
         }
-    }
-
-    private _getStarPosition(): Position {
-        const w = App.instance.canvas.view.width;
-        const h = App.instance.canvas.view.height;
-
-        return {
-            x: getBetween(0, w),
-            y: getBetween(0, h),
-        };
     }
 
     private _drawSpace() {
