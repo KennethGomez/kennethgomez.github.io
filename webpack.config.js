@@ -18,7 +18,7 @@ module.exports = (env, argv) => ({
     entry: './index.ts',
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: '[name].bundle.[hash].js',
+        filename: '[name].bundle.js',
     },
     module: {
         rules: [
@@ -69,6 +69,7 @@ module.exports = (env, argv) => ({
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'pages', 'index.html'),
             publicPath: argv.mode === 'production' ? 'dist' : 'auto',
+            hash: true,
         }),
     ],
 });

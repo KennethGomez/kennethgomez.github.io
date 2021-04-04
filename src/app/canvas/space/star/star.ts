@@ -32,7 +32,10 @@ export class Star {
         const w = App.instance.canvas.view.width;
         const h = App.instance.canvas.view.height;
 
-        const brightness = getBetween(1, 0xFF);
+        let brightness = getBetween(1, 0xFF);
+
+        // We multiply by 0.5 so that the star brightness is its 50% at the beginning
+        brightness *= 0.5;
 
         const colorIdx = getBetween(0, 100);
         const color = this._starColors[colorIdx];
