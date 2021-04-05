@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
 
 import { Module } from '../../api/module/module.abstract';
-import { App } from '../../app';
 
 import { Star } from './star/star';
 
@@ -40,31 +39,7 @@ export class Space extends Module {
     }
 
     private _drawSpace() {
-        const texture = this._getStarTexture();
-
-        for (const {
-            position: { x, y }, size, brightness, color,
-        } of this._stars) {
-            const star = new PIXI.Sprite(texture);
-
-            star.x = x - size / 2;
-            star.y = y - size / 2;
-
-            star.tint = color;
-            star.alpha = brightness / 0xFF;
-
-            this._container.addChild(star);
-        }
-    }
-
-    private _getStarTexture(): PIXI.Texture {
-        const g = new PIXI.Graphics();
-
-        g.beginFill(0xFFFFFF);
-        g.drawCircle(0, 0, 0.75);
-        g.endFill();
-
-        return App.instance.canvas.app.renderer.generateTexture(g);
+        this._container.addChild(...this._stars.map((s: Star) => s.sprite));
     }
 
     public get container(): PIXI.Container {

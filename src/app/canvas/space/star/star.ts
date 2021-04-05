@@ -1,6 +1,9 @@
+import * as PIXI from 'pixi.js';
+
 import { Position } from '../../../api/canvas/canvas.types';
 import { getBetween } from '../../../utils/numbers';
-import { App } from '../../../app';
+
+import { StarTextureGenerator } from './texture/star-texture-generator';
 
 export class Star {
     /**
@@ -17,8 +20,9 @@ export class Star {
         [30, 0xABCDEF], // blue
         [30, 0xFFFFFF], // white
     ]
-
     private static readonly _starColors: number[] = Star._computeStarColorProbabilities();
+
+    private readonly _sprite: PIXI.Sprite;
 
     // eslint-disable-next-line no-useless-constructor
     public constructor(
@@ -27,7 +31,25 @@ export class Star {
         private readonly _brightness: number,
         private readonly _color: number,
     ) {
-        //
+        this._sprite = this._buildSprite();
+    }
+
+    private _buildSprite(): PIXI.Sprite {
+        const texture = StarTextureGenerator.base;
+
+        const {
+            position: { x, y }, size, brightness, color,
+        } = this;
+
+        const star = new PIXI.Sprite(texture);
+
+        star.x = x - size / 2;
+        star.y = y - size / 2;
+
+        star.tint = color;
+        star.alpha = brightness / 0xFF;
+
+        return star;
     }
 
     public static random(): Star {
@@ -78,5 +100,9 @@ export class Star {
 
     public get color(): number {
         return this._color;
+    }
+
+    public get sprite(): PIXI.Sprite {
+        return this._sprite;
     }
 }
