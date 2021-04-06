@@ -6,7 +6,7 @@ import { InitStarAnimation } from './init-stars.types';
 export class InitStarsTicker extends AbstractTicker {
     private readonly _starAnimations: InitStarAnimation[]
 
-    private _remainingDelay = 20 // Frame count delay until start animation
+    private _remainingDelay: number;
 
     public constructor(
         private readonly _stars: Star[],
@@ -14,6 +14,8 @@ export class InitStarsTicker extends AbstractTicker {
         super();
 
         this._starAnimations = this._initStarAnimations();
+
+        this._remainingDelay = 20; // Frame count delay until start animation
     }
 
     public update(delta: number): void {
@@ -23,8 +25,21 @@ export class InitStarsTicker extends AbstractTicker {
             return;
         }
 
+        let updated = false;
+
         for (const starAnimation of this._starAnimations) {
-            this._updateStarAnimation(starAnimation);
+            if (starAnimation.ended) {
+                continue;
+            }
+
+            // If we update at least one star animation don't dispose the ticker
+            updated = true;
+
+            starAnimation.ended = this._updateStarAnimation(starAnimation);
+        }
+
+        if (!updated) {
+            this.dispose();
         }
     }
 
@@ -35,12 +50,13 @@ export class InitStarsTicker extends AbstractTicker {
             return {
                 star,
                 yVelocity,
+                ended: false,
             };
         });
     }
 
-    private _updateStarAnimation(starAnimation: InitStarAnimation) {
-        const { star: { sprite, position: { x, y }, brightness }, yVelocity } = starAnimation;
+    private _updateStarAnimation(starAnimation: InitStarAnimation): boolean {
+        const { star: { sprite, position: { y }, brightness }, yVelocity } = starAnimation;
 
         sprite.y -= yVelocity;
 
@@ -55,6 +71,8 @@ export class InitStarsTicker extends AbstractTicker {
         if (sprite.alpha >= alpha) {
             sprite.alpha = alpha;
         }
+
+        return sprite.alpha === alpha && sprite.y === y;
     }
 
     private _applyEaseInOutCubic(x: number) {

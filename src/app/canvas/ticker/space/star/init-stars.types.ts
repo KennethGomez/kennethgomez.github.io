@@ -1,6 +1,7 @@
 import { Star } from '../../../space/star/star';
 
 export type InitStarAnimation = {
-    star: Star,
+    star: Star
     yVelocity: number
+    ended: boolean
 }
