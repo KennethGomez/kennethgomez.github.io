@@ -8,6 +8,6 @@ status=$?
 
 [ $status -eq 0 ] && exit 0 || exit 1
 
-CMD_ADD="git add dist/* index.html"
+CMD_ADD="git add ."
 
 $CMD_ADD
