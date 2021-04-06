@@ -6,6 +6,8 @@ import { InitStarAnimation } from './init-stars.types';
 export class InitStarsTicker extends AbstractTicker {
     private readonly _starAnimations: InitStarAnimation[]
 
+    private _remainingDelay = 20 // Frame count delay until start animation
+
     public constructor(
         private readonly _stars: Star[],
     ) {
@@ -15,6 +17,12 @@ export class InitStarsTicker extends AbstractTicker {
     }
 
     public update(delta: number): void {
+        if (this._remainingDelay > 0) {
+            this._remainingDelay--;
+
+            return;
+        }
+
         for (const starAnimation of this._starAnimations) {
             this._updateStarAnimation(starAnimation);
         }
@@ -22,7 +30,7 @@ export class InitStarsTicker extends AbstractTicker {
 
     private _initStarAnimations(): InitStarAnimation[] {
         return this._stars.map((star: Star) => {
-            const yVelocity = (Math.random() * 100) + 10;
+            const yVelocity = (Math.random() * 50) + 10;
 
             return {
                 star,
@@ -40,7 +48,7 @@ export class InitStarsTicker extends AbstractTicker {
             sprite.y = y;
         }
 
-        sprite.alpha += 0.1;
+        sprite.alpha += 0.01;
 
         const alpha = brightness / 0xFF;
 
