@@ -1,4 +1,4 @@
-import { Module } from './api/module/module.abstract';
+import { Module } from './module/module.abstract';
 import { Canvas } from './canvas/canvas';
 
 export class App extends Module {

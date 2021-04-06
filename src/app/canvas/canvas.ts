@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js';
 
-import { Module } from '../api/module/module.abstract';
+import { Module } from '../module/module.abstract';
 
 import { Space } from './space/space';
+import { Ticker } from './ticker/ticker';
 
 export class Canvas extends Module {
     private readonly _app: PIXI.Application;
@@ -11,13 +12,14 @@ export class Canvas extends Module {
 
     public constructor() {
         super([
+            new Ticker(),
             new Space(),
         ]);
 
         this._app = new PIXI.Application({
             width: window.innerWidth,
             height: window.innerHeight,
-            backgroundColor: 0x060505,
+            backgroundColor: 0x101010,
         });
 
         this._viewContainer = this.viewContainer;
@@ -25,6 +27,8 @@ export class Canvas extends Module {
 
     protected onInit() {
         this._viewContainer.appendChild(this._app.view);
+
+        this._app.ticker.add(this.ticker.update, this.ticker);
 
         this._app.stage.addChild(this.space.container);
     }
@@ -41,6 +45,10 @@ export class Canvas extends Module {
         }
 
         return view as HTMLCanvasElement;
+    }
+
+    public get ticker(): Ticker {
+        return this.getSubmodule(Ticker);
     }
 
     public get space(): Space {

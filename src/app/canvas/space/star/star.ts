@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-import { Position } from '../../../api/canvas/canvas.types';
+import { Position } from '../../canvas.types';
 import { getBetween } from '../../../utils/numbers';
 
 import { StarTextureGenerator } from './texture/star-texture-generator';

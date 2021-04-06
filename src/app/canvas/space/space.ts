@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 
-import { Module } from '../../api/module/module.abstract';
+import { InitStarsTicker } from '../ticker/space/star/init-stars-ticker';
+import { Module } from '../../module/module.abstract';
 import { Event } from '../../events/event.enum';
 import { Events } from '../../events/events';
 
@@ -8,7 +9,7 @@ import { Star } from './star/star';
 
 export class Space extends Module {
     /**
-     * Amount of stars per pixel²
+     * Amount of star per pixel²
      */
     public static readonly STAR_RATIO = 0.005;
 
@@ -26,7 +27,7 @@ export class Space extends Module {
         this._populateStars();
         this._drawSpace();
 
-        Events.emit(Event.INIT_SPACE);
+        Events.emit(Event.ADD_TICKER, { ticker: new InitStarsTicker(this._stars) });
     }
 
     private _populateStars() {
@@ -48,5 +49,9 @@ export class Space extends Module {
 
     public get container(): PIXI.Container {
         return this._container;
+    }
+
+    public get stars(): Star[] {
+        return this._stars;
     }
 }

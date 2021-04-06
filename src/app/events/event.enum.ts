@@ -1,3 +1,3 @@
 export enum Event {
-    INIT_SPACE
+    ADD_TICKER
 }
