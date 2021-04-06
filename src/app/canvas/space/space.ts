@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 
 import { Module } from '../../api/module/module.abstract';
+import { Event } from '../../events/event.enum';
+import { Events } from '../../events/events';
 
 import { Star } from './star/star';
 
@@ -23,6 +25,8 @@ export class Space extends Module {
     protected onInit(): void {
         this._populateStars();
         this._drawSpace();
+
+        Events.emit(Event.INIT_SPACE);
     }
 
     private _populateStars() {

@@ -38,7 +38,7 @@ export class Star {
         const texture = StarTextureGenerator.base;
 
         const {
-            position: { x, y }, size, brightness, color,
+            position: { x, y }, size, color,
         } = this;
 
         const star = new PIXI.Sprite(texture);
@@ -47,7 +47,8 @@ export class Star {
         star.y = y - size / 2;
 
         star.tint = color;
-        star.alpha = brightness / 0xFF;
+        // Initialize alpha as 0 so that we can make use of fadeIn animations
+        star.alpha = 0;
 
         return star;
     }
@@ -55,10 +56,8 @@ export class Star {
     public static random(): Star {
         const { innerWidth, innerHeight } = window;
 
-        let brightness = getBetween(1, 0xFF);
-
-        // We multiply by 0.5 so that the star brightness is its 50% at the beginning
-        brightness *= 0.5;
+        // We divide by 2 so that the star brightness is always lower than 50%
+        const brightness = getBetween(1, 0xFF / 2);
 
         const colorIdx = getBetween(0, 100);
         const color = this._starColors[colorIdx];
