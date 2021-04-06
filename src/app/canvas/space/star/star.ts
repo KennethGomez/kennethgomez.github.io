@@ -44,7 +44,7 @@ export class Star {
         const star = new PIXI.Sprite(texture);
 
         star.x = x - size / 2;
-        star.y = y - size / 2;
+        star.y = window.innerHeight;
 
         star.tint = color;
         // Initialize alpha as 0 so that we can make use of fadeIn animations
@@ -57,7 +57,7 @@ export class Star {
         const { innerWidth, innerHeight } = window;
 
         // We divide by 2 so that the star brightness is always lower than 50%
-        const brightness = getBetween(1, 0xFF / 2);
+        const brightness = getBetween(20, 0xFF / 2);
 
         const colorIdx = getBetween(0, 100);
         const color = this._starColors[colorIdx];
