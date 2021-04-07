@@ -1,6 +1,12 @@
-import { Star } from '../../../space/star/star';
+import { Event } from '../../../../../events/event.enum';
+import { Events } from '../../../../../events/events';
 
-import { AbstractTicker } from '../../ticker.abstract';
+import { Star } from '../../../../space/star/star';
+
+import { AbstractTicker } from '../../../ticker.abstract';
+
+import { StarInteractionTicker } from '../star-interaction/star-interaction-ticker';
+
 import { InitStarAnimation } from './init-stars.types';
 
 export class InitStarsTicker extends AbstractTicker {
@@ -43,6 +49,10 @@ export class InitStarsTicker extends AbstractTicker {
         }
     }
 
+    protected onDispose() {
+        Events.emit(Event.ADD_TICKER, { ticker: new StarInteractionTicker() });
+    }
+
     private _initStarAnimations(): InitStarAnimation[] {
         return this._stars.map((star: Star) => {
             const yVelocity = (Math.random() * 50) + 10;
@@ -56,23 +66,23 @@ export class InitStarsTicker extends AbstractTicker {
     }
 
     private _updateStarAnimation(starAnimation: InitStarAnimation): boolean {
-        const { star: { sprite, position: { y }, brightness }, yVelocity } = starAnimation;
+        const { sprite, position: { y: targetY }, brightness } = starAnimation.star;
 
-        sprite.y -= yVelocity;
+        sprite.y -= starAnimation.yVelocity;
 
-        if (sprite.y <= y) {
-            sprite.y = y;
+        if (sprite.y <= targetY) {
+            sprite.y = targetY;
         }
 
         sprite.alpha += 0.01;
 
-        const alpha = brightness / 0xFF;
+        const targetAlpha = brightness / 0xFF;
 
-        if (sprite.alpha >= alpha) {
-            sprite.alpha = alpha;
+        if (sprite.alpha >= targetAlpha) {
+            sprite.alpha = targetAlpha;
         }
 
-        return sprite.alpha === alpha && sprite.y === y;
+        return sprite.alpha === targetAlpha && sprite.y === targetY;
     }
 
     private _applyEaseInOutCubic(x: number) {

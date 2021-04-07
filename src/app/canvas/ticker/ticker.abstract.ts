@@ -7,7 +7,13 @@ export abstract class AbstractTicker {
 
     public abstract update(delta: number): void;
 
+    protected onDispose() {
+        // To be implemented by tickers
+    }
+
     protected dispose() {
+        this.onDispose();
+
         this._disposed = true;
     }
 

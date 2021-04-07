@@ -6,7 +6,7 @@ import { AbstractTicker } from './ticker.abstract';
 import { IAddTicker } from './events/add-ticker.interface';
 
 export class Ticker extends Module {
-    private readonly _tickers: AbstractTicker[];
+    private _tickers: AbstractTicker[];
 
     public constructor() {
         super();
@@ -19,22 +19,10 @@ export class Ticker extends Module {
     }
 
     public update(delta: number) {
-        this._removeDisposedTickers();
+        this._tickers = this._tickers.filter((t: AbstractTicker) => !t.disposed);
 
         for (const ticker of this._tickers) {
             ticker.update(delta);
-        }
-    }
-
-    private _removeDisposedTickers() {
-        const tickers = [...this._tickers];
-
-        for (const ticker of tickers) {
-            if (ticker.disposed) {
-                const idx = this._tickers.indexOf(ticker);
-
-                this._tickers.splice(idx);
-            }
         }
     }
 

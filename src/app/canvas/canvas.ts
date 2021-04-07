@@ -6,9 +6,11 @@ import { Space } from './space/space';
 import { Ticker } from './ticker/ticker';
 
 export class Canvas extends Module {
+    public static readonly CANVAS_BACKGROUND: number = 0x101010;
+
     private readonly _app: PIXI.Application;
 
-    private readonly _viewContainer: HTMLCanvasElement;
+    private readonly _viewCanvas: HTMLCanvasElement;
 
     public constructor() {
         super([
@@ -19,23 +21,23 @@ export class Canvas extends Module {
         this._app = new PIXI.Application({
             width: window.innerWidth,
             height: window.innerHeight,
-            backgroundColor: 0x101010,
+            backgroundColor: Canvas.CANVAS_BACKGROUND,
         });
 
-        this._viewContainer = this.viewContainer;
+        this._viewCanvas = this.viewCanvas;
     }
 
     protected onInit() {
-        this._viewContainer.appendChild(this._app.view);
+        this._viewCanvas.appendChild(this._app.view);
 
         this._app.ticker.add(this.ticker.update, this.ticker);
 
         this._app.stage.addChild(this.space.container);
     }
 
-    public get viewContainer(): HTMLCanvasElement {
-        if (this._viewContainer) {
-            return this._viewContainer;
+    public get viewCanvas(): HTMLCanvasElement {
+        if (this._viewCanvas) {
+            return this._viewCanvas;
         }
 
         const view = document.getElementById('background-canvas');

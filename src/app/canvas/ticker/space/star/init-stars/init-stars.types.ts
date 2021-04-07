@@ -1,4 +1,4 @@
-import { Star } from '../../../space/star/star';
+import { Star } from '../../../../space/star/star';
 
 export type InitStarAnimation = {
     star: Star

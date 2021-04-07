@@ -1,3 +1,4 @@
 export enum Event {
-    ADD_TICKER
+    ADD_TICKER,
+    SPACE_POINTER_MOVE,
 }

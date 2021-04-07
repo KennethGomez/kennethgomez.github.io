@@ -1,9 +1,10 @@
 import * as PIXI from 'pixi.js';
 
-import { InitStarsTicker } from '../ticker/space/star/init-stars-ticker';
 import { Module } from '../../module/module.abstract';
 import { Event } from '../../events/event.enum';
 import { Events } from '../../events/events';
+
+import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
 
 import { Star } from './star/star';
 
@@ -21,6 +22,9 @@ export class Space extends Module {
 
         this._stars = [];
         this._container = new PIXI.Container();
+
+        this._container.interactive = true;
+        this._container.on('pointermove', (e) => Events.emit(Event.SPACE_POINTER_MOVE, { base: e }));
     }
 
     protected onInit(): void {
