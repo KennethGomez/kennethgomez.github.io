@@ -20,6 +20,7 @@ export class StarInteractionTicker extends AbstractTicker {
         this._animatingStars = new Set();
 
         Events.on(Event.SPACE_POINTER_MOVE, this._onSpacePointerOver, this);
+        Events.on(Event.SPACE_POINTER_OUT, this._onSpacePointerOut, this);
     }
 
     public update(delta: number): void {
@@ -51,10 +52,14 @@ export class StarInteractionTicker extends AbstractTicker {
 
         const { base } = event;
 
-        this._addAnimatingStars(this._getClosePointChilds(base));
+        this._addAnimatingStars(this._getClosePointChildren(base));
     }
 
-    private _getClosePointChilds(event: PIXI.InteractionEvent): Star[] {
+    private _onSpacePointerOut() {
+        this._addStarsToOldAnimatingStars();
+    }
+
+    private _getClosePointChildren(event: PIXI.InteractionEvent): Star[] {
         const { x: pX, y: pY } = event.data.global;
 
         return App.instance.canvas.space.stars.filter(({ sprite: { x, y } }: Star) => {
@@ -65,8 +70,18 @@ export class StarInteractionTicker extends AbstractTicker {
     }
 
     private _addAnimatingStars(stars: Star[]) {
+        this._addStarsToOldAnimatingStars(stars);
+
+        for (const star of stars) {
+            if (!this._animatingStars.has(star)) {
+                this._animatingStars.add(star);
+            }
+        }
+    }
+
+    private _addStarsToOldAnimatingStars(newStars?: Star[]) {
         for (const oldStar of this._animatingStars) {
-            if (stars.includes(oldStar)) {
+            if (newStars && newStars.includes(oldStar)) {
                 continue;
             }
 
@@ -74,12 +89,6 @@ export class StarInteractionTicker extends AbstractTicker {
 
             if (!this._oldAnimatingStars.has(oldStar)) {
                 this._oldAnimatingStars.add(oldStar);
-            }
-        }
-
-        for (const star of stars) {
-            if (!this._animatingStars.has(star)) {
-                this._animatingStars.add(star);
             }
         }
     }

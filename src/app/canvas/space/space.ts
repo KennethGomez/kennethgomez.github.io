@@ -26,6 +26,8 @@ export class Space extends Module {
         this._container.interactive = true;
         this._container.interactiveChildren = false;
         this._container.on('pointermove', (e) => Events.emit(Event.SPACE_POINTER_MOVE, { base: e }));
+
+        window.addEventListener('mouseout', this._onMouseOut);
     }
 
     protected onInit(): void {
@@ -33,6 +35,16 @@ export class Space extends Module {
         this._drawSpace();
 
         Events.emit(Event.ADD_TICKER, { ticker: new InitStarsTicker(this._stars) });
+    }
+
+    protected onDispose() {
+        this._container.destroy({ children: true });
+
+        window.removeEventListener('mouseout', this._onMouseOut);
+    }
+
+    private _onMouseOut(e: MouseEvent) {
+        Events.emit(Event.SPACE_POINTER_OUT, { base: e });
     }
 
     private _populateStars() {
