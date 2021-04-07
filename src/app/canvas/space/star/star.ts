@@ -45,6 +45,7 @@ export class Star {
 
         star.x = x - size / 2;
         star.y = window.innerHeight;
+        star.scale.set(size);
 
         star.tint = color;
         // Initialize alpha as 0 so that we can make use of fadeIn animations
@@ -59,13 +60,16 @@ export class Star {
         // We divide by 2 so that the star brightness is always lower than 50%
         const brightness = getBetween(20, 0xFF / 2);
 
+        // Given probability get size
+        const size = getBetween(1, 10) === 1 ? 2 : 1;
+
         const colorIdx = getBetween(0, 100);
         const color = this._starColors[colorIdx];
 
         return new Star({
             x: getBetween(0, innerWidth),
             y: getBetween(0, innerHeight),
-        }, 1, brightness, color);
+        }, size, brightness, color);
     }
 
     private static _computeStarColorProbabilities(): number[] {
