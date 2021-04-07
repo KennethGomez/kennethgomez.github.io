@@ -57,8 +57,8 @@ export class Star {
     public static random(): Star {
         const { innerWidth, innerHeight } = window;
 
-        // We divide by 2 so that the star brightness is always lower than 50%
-        const brightness = getBetween(20, 0xFF / 2);
+        // We divide by 4 so that the star brightness is always lower than 50%
+        const brightness = getBetween(20, 0xFF / 4);
 
         // Given probability get size
         const size = getBetween(1, 10) === 1 ? 2 : 1;
