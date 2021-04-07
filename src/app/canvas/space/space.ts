@@ -24,6 +24,7 @@ export class Space extends Module {
         this._container = new PIXI.Container();
 
         this._container.interactive = true;
+        this._container.interactiveChildren = false;
         this._container.on('pointermove', (e) => Events.emit(Event.SPACE_POINTER_MOVE, { base: e }));
     }
 
