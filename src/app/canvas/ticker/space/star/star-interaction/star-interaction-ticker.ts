@@ -25,7 +25,7 @@ export class StarInteractionTicker extends AbstractTicker {
 
     public update(delta: number): void {
         for (const animatingStar of this._oldAnimatingStars.values()) {
-            animatingStar.sprite.alpha -= 0.1;
+            animatingStar.sprite.alpha -= 0.05;
 
             const targetAlpha = animatingStar.brightness / 0xFF;
 

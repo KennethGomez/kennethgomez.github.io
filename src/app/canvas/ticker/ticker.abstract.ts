@@ -11,7 +11,7 @@ export abstract class AbstractTicker {
         // To be implemented by tickers
     }
 
-    protected dispose() {
+    public dispose() {
         this.onDispose();
 
         this._disposed = true;

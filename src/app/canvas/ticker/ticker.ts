@@ -18,6 +18,12 @@ export class Ticker extends Module {
         Events.on(Event.ADD_TICKER, this._addTicker, this);
     }
 
+    protected onDispose() {
+        for (const ticker of this._tickers) {
+            ticker.dispose();
+        }
+    }
+
     public update(delta: number) {
         this._tickers = this._tickers.filter((t: AbstractTicker) => !t.disposed);
 

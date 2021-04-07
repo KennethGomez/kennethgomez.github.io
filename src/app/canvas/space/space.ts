@@ -27,10 +27,8 @@ export class Space extends Module {
         this._container.interactiveChildren = false;
         this._container.on('pointermove', (e) => Events.emit(Event.SPACE_POINTER_MOVE, { base: e }));
 
-        this._container.on('pointerleave', this._onMouseOut);
-        this._container.on('pointerout', this._onMouseOut);
-
         window.addEventListener('mouseout', this._onMouseOut);
+        window.addEventListener('touchend', this._onMouseOut);
     }
 
     protected onInit(): void {
@@ -44,9 +42,10 @@ export class Space extends Module {
         this._container.destroy({ children: true });
 
         window.removeEventListener('mouseout', this._onMouseOut);
+        window.removeEventListener('touchend', this._onMouseOut);
     }
 
-    private _onMouseOut(e: MouseEvent | PIXI.InteractionEvent) {
+    private _onMouseOut(e: MouseEvent | PIXI.InteractionEvent | TouchEvent) {
         Events.emit(Event.SPACE_POINTER_OUT, { base: e });
     }
 
