@@ -7,6 +7,7 @@ import { Events } from '../../events/events';
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
 
 import { Star } from './star/star';
+import { INativeEvent } from '../../events/native-event.interface';
 
 export class Space extends Module {
     /**
@@ -29,6 +30,8 @@ export class Space extends Module {
 
         window.addEventListener('mouseout', this._onMouseOut);
         window.addEventListener('touchend', this._onMouseOut);
+
+        Events.on(Event.SPACE_BUTTON_HOVER, this._onSpaceButtonHover.bind(this));
     }
 
     protected onInit(): void {
@@ -60,6 +63,14 @@ export class Space extends Module {
 
             this._stars.push(star);
         }
+    }
+
+    private _onSpaceButtonHover(e?: INativeEvent<MouseEvent>) {
+        if (!e) {
+            return;
+        }
+
+        console.log('btn hover', e.base.target);
     }
 
     private _drawSpace() {

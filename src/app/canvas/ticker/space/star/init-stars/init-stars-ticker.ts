@@ -51,6 +51,7 @@ export class InitStarsTicker extends AbstractTicker {
 
     protected onDispose() {
         Events.emit(Event.ADD_TICKER, { ticker: new StarInteractionTicker() });
+        Events.emit(Event.SPACE_INITIALIZED);
     }
 
     private _initStarAnimations(): InitStarAnimation[] {
