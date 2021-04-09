@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import { get2DVectorDistance, get2DVectorToRectDistance } from '../../../../../utils/points';
 import { INativeEvent } from '../../../../../events/native-event.interface';
 import { Event } from '../../../../../events/event.enum';
+import { isPhone } from '../../../../../utils/window';
 import { Events } from '../../../../../events/events';
 import { App } from '../../../../../app';
 
@@ -146,8 +147,8 @@ export class StarInteractionTicker extends AbstractTicker {
             this._buttonAnimatingStarsTarget.set(star, {
                 target: bestTarget.target,
                 initial: {
-                    initialX: star.position.x,
-                    initialY: star.position.y,
+                    initialX: star.sprite.x,
+                    initialY: star.sprite.y,
                 },
                 progress: 0,
             });
@@ -244,8 +245,13 @@ export class StarInteractionTicker extends AbstractTicker {
                 targetY = maxY - current;
             }
 
-            targetX += Math.random() * 10;
-            targetY += Math.random() * 10;
+            let sub = 0;
+            if (isPhone()) {
+                sub = 5;
+            }
+
+            targetX += Math.random() * 10 - sub;
+            targetY += Math.random() * 10 - sub;
 
             targets.push({ targetX, targetY });
         }

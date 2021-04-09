@@ -16,15 +16,17 @@ export class Layout extends Module {
             }
 
             btn.addEventListener('mouseover', this._onSpaceButtonHover.bind(this));
+            btn.addEventListener('touchstart', this._onSpaceButtonHover.bind(this));
             btn.addEventListener('mouseout', this._onSpaceButtonOut.bind(this));
+            btn.addEventListener('touchend', this._onSpaceButtonOut.bind(this));
         }
     }
 
-    private _onSpaceButtonHover(e: MouseEvent) {
+    private _onSpaceButtonHover(e: MouseEvent | TouchEvent) {
         Events.emit(Event.SPACE_BUTTON_HOVER, { base: e });
     }
 
-    private _onSpaceButtonOut(e: MouseEvent) {
+    private _onSpaceButtonOut(e: MouseEvent | TouchEvent) {
         Events.emit(Event.SPACE_BUTTON_OUT, { base: e });
     }
 }
