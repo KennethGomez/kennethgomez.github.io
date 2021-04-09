@@ -85,8 +85,4 @@ export class InitStarsTicker extends AbstractTicker {
 
         return sprite.alpha === targetAlpha && sprite.y === targetY;
     }
-
-    private _applyEaseInOutCubic(x: number) {
-        return x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2;
-    }
 }

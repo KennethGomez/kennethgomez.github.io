@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 
+import { get2DVectorDistance, get2DVectorToRectDistance } from '../../../../../utils/points';
 import { INativeEvent } from '../../../../../events/native-event.interface';
 import { Event } from '../../../../../events/event.enum';
 import { Events } from '../../../../../events/events';
@@ -9,15 +10,16 @@ import { Star } from '../../../../space/star/star';
 
 import { AbstractTicker } from '../../../ticker.abstract';
 
-import { ButtonAnimatingStarTarget } from './star-interaction-ticker.types';
-import { get2DVectorDistance, get2DVectorToRectDistance } from '../../../../../utils/points';
+import { ButtonAnimatingStar, ButtonAnimatingStarTarget } from './star-interaction-ticker.types';
 
 export class StarInteractionTicker extends AbstractTicker {
+    private static readonly ANIMATION_DURATION = 50;
+
     private readonly _oldAnimatingStars: Set<Star>;
     private readonly _animatingStars: Set<Star>;
 
     private readonly _buttonAnimatingStars: Set<Star>;
-    private _buttonAnimatingStarsTarget: Map<Star, ButtonAnimatingStarTarget>;
+    private readonly _buttonAnimatingStarsTarget: Map<Star, ButtonAnimatingStar>;
     private _buttonBounds: DOMRect | undefined;
 
     public constructor() {
@@ -57,9 +59,24 @@ export class StarInteractionTicker extends AbstractTicker {
             }
         }
 
-        for (const [star, { targetX, targetY }] of this._buttonAnimatingStarsTarget.entries()) {
-            star.sprite.x = targetX;
-            star.sprite.y = targetY;
+        for (const [star, animation] of this._buttonAnimatingStarsTarget) {
+            if (animation.progress === StarInteractionTicker.ANIMATION_DURATION) {
+                continue;
+            }
+
+            const { target: { targetX, targetY }, initial: { initialX, initialY } } = animation;
+
+            const fn = this._applyEaseInOutQuad(
+                animation.progress / StarInteractionTicker.ANIMATION_DURATION,
+            );
+
+            const progressX = (targetX - initialX) * fn;
+            const progressY = (targetY - initialY) * fn;
+
+            star.sprite.x = progressX + initialX;
+            star.sprite.y = progressY + initialY;
+
+            animation.progress++;
         }
     }
 
@@ -126,24 +143,36 @@ export class StarInteractionTicker extends AbstractTicker {
 
             targets.splice(bestTarget.index, 1);
 
-            this._buttonAnimatingStarsTarget.set(star, bestTarget.target);
+            this._buttonAnimatingStarsTarget.set(star, {
+                target: bestTarget.target,
+                initial: {
+                    initialX: star.position.x,
+                    initialY: star.position.y,
+                },
+                progress: 0,
+            });
         }
     }
 
     private _onSpaceButtonOut() {
-        this._restoreStarPositions(Array.from(this._buttonAnimatingStars.values()));
+        const stars = Array.from(this._buttonAnimatingStarsTarget.keys());
+
+        for (const star of stars) {
+            this._buttonAnimatingStarsTarget.set(star, {
+                target: {
+                    targetX: star.position.x,
+                    targetY: star.position.y,
+                },
+                initial: {
+                    initialX: star.sprite.x,
+                    initialY: star.sprite.y,
+                },
+                progress: 0,
+            });
+        }
 
         this._buttonAnimatingStars.clear();
-        this._buttonAnimatingStarsTarget.clear();
-        this._buttonBounds = undefined;
-
         this._addStarsToOldAnimatingStars();
-    }
-
-    private _restoreStarPositions(stars: Star[]) {
-        for (const star of stars) {
-            star.sprite.position.copyFrom(star.position);
-        }
     }
 
     private _getCloseRectChildren(rect: DOMRect): Star[] {
@@ -240,5 +269,9 @@ export class StarInteractionTicker extends AbstractTicker {
                 this._oldAnimatingStars.add(oldStar);
             }
         }
+    }
+
+    private _applyEaseInOutQuad(n: number) {
+        return n < 0.5 ? 2 * n * n : 1 - (-2 * n + 2) ** 2 / 2;
     }
 }
