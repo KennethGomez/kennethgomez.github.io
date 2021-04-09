@@ -1,0 +1,36 @@
+@import "../mixins"
+
+.btn
+  font-size: 20px
+  font-weight: 300
+  outline: none
+  background: transparent
+  color: white
+  border: 1px solid white
+  padding: 0.5rem 3rem
+  letter-spacing: 0.1em
+
+  transition: transform 150ms ease-in-out, background-color 100ms ease-in-out
+
+  &:before
+    content: ''
+    width: 100%
+    height: 100%
+    border: 1px solid white
+    border-top: none
+    border-left: none
+    position: absolute
+    top: 4px
+    left: 4px
+    transition: transform 200ms ease-in-out
+
+
+  &:hover
+    background: rgba(255, 255, 255, 0.1)
+    transform: translate(4px, 4px)
+
+    &::before
+      transform: translate(-4px, -4px)
+
+  &--start
+    @include absolute-center
