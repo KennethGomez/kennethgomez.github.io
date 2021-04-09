@@ -6,5 +6,7 @@ export enum Event {
     SPACE_POINTER_MOVE,
     SPACE_POINTER_OUT,
 
-    SPACE_BUTTON_HOVER
+    SPACE_BUTTON_HOVER,
+    SPACE_BUTTON_OUT,
+
 }

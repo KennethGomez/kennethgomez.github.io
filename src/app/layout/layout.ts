@@ -1,4 +1,3 @@
-import { INativeEvent } from '../events/native-event.interface';
 import { Module } from '../module/module.abstract';
 import { Event } from '../events/event.enum';
 import { Events } from '../events/events';
@@ -17,10 +16,15 @@ export class Layout extends Module {
             }
 
             btn.addEventListener('mouseover', this._onSpaceButtonHover.bind(this));
+            btn.addEventListener('mouseout', this._onSpaceButtonOut.bind(this));
         }
     }
 
     private _onSpaceButtonHover(e: MouseEvent) {
         Events.emit(Event.SPACE_BUTTON_HOVER, { base: e });
+    }
+
+    private _onSpaceButtonOut(e: MouseEvent) {
+        Events.emit(Event.SPACE_BUTTON_OUT, { base: e });
     }
 }
