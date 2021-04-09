@@ -12,7 +12,7 @@ export class Space extends Module {
     /**
      * Amount of star per pixel²
      */
-    public static readonly STAR_RATIO = 0.005;
+    public static readonly STAR_RATIO = 0.008;
 
     private readonly _stars: Star[];
     private readonly _container: PIXI.Container;
