@@ -11,9 +11,9 @@ import { Star } from '../../../../space/star/star';
 
 import { AbstractTicker } from '../../../ticker.abstract';
 
-import { ButtonAnimatingStar, ButtonAnimatingStarTarget } from './star-interaction-ticker.types';
+import { ButtonAnimatingStar, ButtonAnimatingStarTarget } from './star-animation-ticker.types';
 
-export class StarInteractionTicker extends AbstractTicker {
+export class StarAnimationTicker extends AbstractTicker {
     private static readonly ANIMATION_DURATION = 50;
 
     private readonly _oldAnimatingStars: Set<Star>;
@@ -69,7 +69,7 @@ export class StarInteractionTicker extends AbstractTicker {
         let runningButtonAnimation = false;
 
         for (const [star, animation] of this._buttonAnimatingStarsTarget) {
-            if (animation.progress === StarInteractionTicker.ANIMATION_DURATION) {
+            if (animation.progress === StarAnimationTicker.ANIMATION_DURATION) {
                 if (!animation.persistent) {
                     this._deleteStar(star);
                 }
@@ -82,7 +82,7 @@ export class StarInteractionTicker extends AbstractTicker {
             const { target: { targetX, targetY }, initial: { initialX, initialY } } = animation;
 
             const fn = this._applyEaseInOutQuad(
-                animation.progress / StarInteractionTicker.ANIMATION_DURATION,
+                animation.progress / StarAnimationTicker.ANIMATION_DURATION,
             );
 
             const progressX = (targetX - initialX) * fn;
