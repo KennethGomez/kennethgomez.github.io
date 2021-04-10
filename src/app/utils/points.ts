@@ -12,9 +12,9 @@ export const get2DVectorToRectDistance = (
     rectY: number,
     rectWidth: number,
     rectHeight: number,
-) => {
+): number => {
     const dx = Math.max(rectX - pX, 0, pX - (rectX + rectWidth));
     const dy = Math.max(rectY - pY, 0, pY - (rectY + rectHeight));
 
-    return Math.sqrt(dx * dx + dy * dy) < 40;
+    return Math.sqrt(dx * dx + dy * dy);
 };

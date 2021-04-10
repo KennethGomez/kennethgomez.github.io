@@ -12,4 +12,5 @@ export type ButtonAnimatingStar = {
     target: ButtonAnimatingStarTarget
     initial: ButtonAnimatingStarInitial
     progress: number
+    persistent: boolean
 }

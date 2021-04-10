@@ -21,7 +21,9 @@ export class StarInteractionTicker extends AbstractTicker {
 
     private readonly _buttonAnimatingStars: Set<Star>;
     private readonly _buttonAnimatingStarsTarget: Map<Star, ButtonAnimatingStar>;
+
     private _buttonBounds: DOMRect | undefined;
+    private _runningButtonAnimation: boolean;
 
     public constructor() {
         super();
@@ -32,6 +34,8 @@ export class StarInteractionTicker extends AbstractTicker {
         this._buttonAnimatingStars = new Set();
         this._buttonAnimatingStarsTarget = new Map();
 
+        this._runningButtonAnimation = false;
+
         Events.on(Event.SPACE_POINTER_MOVE, this._onSpacePointerOver, this);
         Events.on(Event.SPACE_POINTER_OUT, this._onSpacePointerOut, this);
 
@@ -40,7 +44,7 @@ export class StarInteractionTicker extends AbstractTicker {
     }
 
     public update(delta: number): void {
-        for (const animatingStar of this._oldAnimatingStars.values()) {
+        for (const animatingStar of this._oldAnimatingStars) {
             animatingStar.sprite.alpha -= 0.05;
 
             const targetAlpha = animatingStar.brightness / 0xFF;
@@ -52,18 +56,28 @@ export class StarInteractionTicker extends AbstractTicker {
             }
         }
 
-        for (const animatingStar of this._animatingStars.values()) {
-            animatingStar.sprite.alpha += 0.1;
+        for (const animatingStar of this._animatingStars) {
+            const newAlpha = this._buttonAnimatingStars.has(animatingStar) ? 0.025 : 0.1;
+
+            animatingStar.sprite.alpha += newAlpha;
 
             if (animatingStar.sprite.alpha >= 1) {
                 animatingStar.sprite.alpha = 1;
             }
         }
 
+        let runningButtonAnimation = false;
+
         for (const [star, animation] of this._buttonAnimatingStarsTarget) {
             if (animation.progress === StarInteractionTicker.ANIMATION_DURATION) {
+                if (!animation.persistent) {
+                    this._deleteStar(star);
+                }
+
                 continue;
             }
+
+            runningButtonAnimation = true;
 
             const { target: { targetX, targetY }, initial: { initialX, initialY } } = animation;
 
@@ -79,6 +93,8 @@ export class StarInteractionTicker extends AbstractTicker {
 
             animation.progress++;
         }
+
+        this._runningButtonAnimation = runningButtonAnimation;
     }
 
     private _onSpacePointerOver(event?: INativeEvent<PIXI.InteractionEvent>) {
@@ -110,10 +126,24 @@ export class StarInteractionTicker extends AbstractTicker {
 
         this._buttonBounds = bounds;
 
-        const stars = this._getCloseRectChildren(bounds);
+        // If the animation has not ended yet we should use already
+        // cloned stars instead of cloning new stars
+        const stars = this._runningButtonAnimation
+            ? Array.from(this._buttonAnimatingStarsTarget.keys())
+            : this._getCloseRectChildren(bounds).map((s) => s.clone());
 
         this._addAnimatingStars(stars, true);
         this._assignButtonAnimatingStarTargets(stars, bounds);
+    }
+
+    private _deleteStar(star: Star) {
+        star.sprite.destroy();
+
+        this._oldAnimatingStars.delete(star);
+        this._animatingStars.delete(star);
+
+        this._buttonAnimatingStars.delete(star);
+        this._buttonAnimatingStarsTarget.delete(star);
     }
 
     private _assignButtonAnimatingStarTargets(stars: Star[], bounds: DOMRect) {
@@ -151,6 +181,7 @@ export class StarInteractionTicker extends AbstractTicker {
                     initialY: star.sprite.y,
                 },
                 progress: 0,
+                persistent: true,
             });
         }
     }
@@ -169,6 +200,7 @@ export class StarInteractionTicker extends AbstractTicker {
                     initialY: star.sprite.y,
                 },
                 progress: 0,
+                persistent: false,
             });
         }
 
@@ -182,7 +214,7 @@ export class StarInteractionTicker extends AbstractTicker {
         } = rect;
 
         return App.instance.canvas.space.stars
-            .filter(({ sprite: { x, y } }: Star) => get2DVectorToRectDistance(x, y, rX, rY, width, height));
+            .filter(({ sprite: { x, y } }: Star) => get2DVectorToRectDistance(x, y, rX, rY, width, height) < 40);
     }
 
     private _getClosePointChildren(event: PIXI.InteractionEvent): Star[] {

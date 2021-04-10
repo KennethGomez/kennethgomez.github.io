@@ -1,7 +1,10 @@
 import * as PIXI from 'pixi.js';
 
-import { Position } from '../../canvas.types';
 import { getBetween } from '../../../utils/numbers';
+import { Event } from '../../../events/event.enum';
+import { Events } from '../../../events/events';
+
+import { Position } from '../../canvas.types';
 
 import { StarTextureGenerator } from './texture/star-texture-generator';
 
@@ -30,8 +33,20 @@ export class Star {
         private readonly _size: number,
         private readonly _brightness: number,
         private readonly _color: number,
+        private readonly _cloned: boolean = false,
     ) {
         this._sprite = this._buildSprite();
+    }
+
+    public clone(): Star {
+        const star = new Star(this._position, this._size, this._brightness, this._color, true);
+
+        star.sprite.x = this._position.x;
+        star.sprite.y = this._position.y;
+
+        Events.emit(Event.ADD_DISPLAY_OBJECT, { object: star.sprite });
+
+        return star;
     }
 
     private _buildSprite(): PIXI.Sprite {
@@ -43,6 +58,7 @@ export class Star {
 
         const star = new PIXI.Sprite(texture);
 
+        star.blendMode = PIXI.BLEND_MODES.SATURATION;
         star.x = x - size / 2;
         star.y = window.innerHeight;
         star.scale.set(size);
@@ -107,5 +123,9 @@ export class Star {
 
     public get sprite(): PIXI.Sprite {
         return this._sprite;
+    }
+
+    public get cloned(): boolean {
+        return this._cloned;
     }
 }

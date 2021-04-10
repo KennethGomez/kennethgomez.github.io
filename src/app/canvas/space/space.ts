@@ -5,6 +5,7 @@ import { Event } from '../../events/event.enum';
 import { Events } from '../../events/events';
 
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
+import { IAddDisplayObject } from '../events/add-display-object.interface';
 
 import { Star } from './star/star';
 
@@ -36,6 +37,8 @@ export class Space extends Module {
         this._drawSpace();
 
         Events.emit(Event.ADD_TICKER, { ticker: new InitStarsTicker(this._stars) });
+
+        Events.on(Event.ADD_DISPLAY_OBJECT, this._onAddDisplayObject.bind(this));
     }
 
     protected onDispose() {
@@ -43,6 +46,14 @@ export class Space extends Module {
 
         window.removeEventListener('mouseout', this._onMouseOut);
         window.removeEventListener('touchend', this._onMouseOut);
+    }
+
+    private _onAddDisplayObject(e?: IAddDisplayObject) {
+        if (!e) {
+            return;
+        }
+
+        this._container.addChild(e.object);
     }
 
     private _onMouseOut(e: MouseEvent | PIXI.InteractionEvent | TouchEvent) {
