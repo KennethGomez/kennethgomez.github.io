@@ -10,6 +10,21 @@ export class Layout extends Module {
     }
 
     private _onSpaceInitialized() {
+        this._displayStartButton();
+        this._bindSpaceButtons();
+    }
+
+    private _displayStartButton() {
+        const btn = document.getElementById('start-btn');
+
+        if (!btn) {
+            return;
+        }
+
+        btn.style.opacity = '1';
+    }
+
+    private _bindSpaceButtons() {
         for (const btn of document.querySelectorAll('button[is=space-button]')) {
             if (!(btn instanceof HTMLButtonElement)) {
                 continue;
