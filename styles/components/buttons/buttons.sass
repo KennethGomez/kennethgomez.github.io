@@ -1,4 +1,4 @@
-@import "../mixins"
+@import "../../mixins"
 
 .btn
   $btn-transition: transform 150ms ease-in-out, background-color 100ms ease-in-out
@@ -34,7 +34,7 @@
     &::before
       transform: translate(-4px, -4px)
 
-  &--start
-    @include absolute-center(45px)
+  &#start-btn
+    +absolute-center(45px)
 
     transition: $btn-transition, opacity 500ms ease-in-out
