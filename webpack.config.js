@@ -14,7 +14,10 @@ module.exports = (env, argv) => ({
     mode: 'development',
     devtool: 'source-map',
     context: path.resolve(__dirname, './src'),
-    entry: './index.ts',
+    entry: {
+        main: './index.ts',
+        polyfill: './polyfill/polyfill.js',
+    },
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: '[name].bundle.js',
