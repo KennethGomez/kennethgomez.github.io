@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 
-const ClosurePlugin = require('closure-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -47,11 +46,9 @@ module.exports = (env, argv) => ({
         ],
     },
     optimization: {
-        minimizer: argv.mode === 'production' ? [new ClosurePlugin({ mode: 'STANDARD' }, {
-            rewritePolyfills: true,
-            languageIn: 'ECMASCRIPT_NEXT',
-            languageOut: 'ECMASCRIPT5_STRICT',
-        })] : [],
+        splitChunks: {
+            chunks: 'all',
+        },
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
