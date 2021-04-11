@@ -2,8 +2,9 @@ import { Module } from '../../module/module.abstract';
 import { Event } from '../../events/event.enum';
 import { Events } from '../../events/events';
 
-import { AbstractTicker } from './ticker.abstract';
+import { AnimationTicker } from './animation/animation-ticker';
 import { IAddTicker } from './events/add-ticker.interface';
+import { AbstractTicker } from './ticker.abstract';
 
 export class Ticker extends Module {
     private _tickers: AbstractTicker[];
@@ -11,7 +12,9 @@ export class Ticker extends Module {
     public constructor() {
         super();
 
-        this._tickers = [];
+        this._tickers = [
+            new AnimationTicker(),
+        ];
     }
 
     protected onInit() {

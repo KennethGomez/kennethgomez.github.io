@@ -2,8 +2,9 @@ import * as PIXI from 'pixi.js';
 
 import { Module } from '../module/module.abstract';
 
-import { Space } from './space/space';
+import { Animations } from './animations/animations';
 import { Ticker } from './ticker/ticker';
+import { Space } from './space/space';
 
 export class Canvas extends Module {
     public static readonly CANVAS_BACKGROUND: number = 0x101010;
@@ -16,6 +17,7 @@ export class Canvas extends Module {
         super([
             new Ticker(),
             new Space(),
+            new Animations(),
         ]);
 
         this._app = new PIXI.Application({
@@ -55,6 +57,10 @@ export class Canvas extends Module {
 
     public get space(): Space {
         return this.getSubmodule(Space);
+    }
+
+    public get animations(): Animations {
+        return this.getSubmodule(Animations);
     }
 
     public get app(): PIXI.Application {

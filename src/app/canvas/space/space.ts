@@ -7,6 +7,7 @@ import { Events } from '../../events/events';
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
 import { IAddDisplayObject } from '../events/add-display-object.interface';
 
+import { StartView } from './views/start-view/start-view';
 import { Star } from './star/star';
 
 export class Space extends Module {
@@ -19,7 +20,9 @@ export class Space extends Module {
     private readonly _container: PIXI.Container;
 
     public constructor() {
-        super();
+        super([
+            new StartView(),
+        ]);
 
         this._stars = [];
         this._container = new PIXI.Container();
@@ -38,7 +41,8 @@ export class Space extends Module {
 
         Events.emit(Event.ADD_TICKER, { ticker: new InitStarsTicker(this._stars) });
 
-        Events.on(Event.ADD_DISPLAY_OBJECT, this._onAddDisplayObject.bind(this));
+        Events.on(Event.SPACE_INITIALIZED, this._onSpaceInitialized, this);
+        Events.on(Event.ADD_DISPLAY_OBJECT, this._onAddDisplayObject, this);
     }
 
     protected onDispose() {
@@ -46,6 +50,10 @@ export class Space extends Module {
 
         window.removeEventListener('mouseout', this._onMouseOut);
         window.removeEventListener('touchend', this._onMouseOut);
+    }
+
+    private _onSpaceInitialized() {
+        this.startView.start(this._stars);
     }
 
     private _onAddDisplayObject(e?: IAddDisplayObject) {
@@ -75,6 +83,10 @@ export class Space extends Module {
 
     private _drawSpace() {
         this._container.addChild(...this._stars.map((s: Star) => s.sprite));
+    }
+
+    public get startView(): StartView {
+        return this.getSubmodule(StartView);
     }
 
     public get container(): PIXI.Container {

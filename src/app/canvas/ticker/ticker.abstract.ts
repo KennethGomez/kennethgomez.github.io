@@ -1,7 +1,7 @@
 export abstract class AbstractTicker {
     private _disposed: boolean;
 
-    protected constructor() {
+    public constructor() {
         this._disposed = false;
     }
 

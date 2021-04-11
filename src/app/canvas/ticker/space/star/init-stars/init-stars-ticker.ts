@@ -5,8 +5,6 @@ import { Star } from '../../../../space/star/star';
 
 import { AbstractTicker } from '../../../ticker.abstract';
 
-import { StarAnimationTicker } from '../star-animation/star-animation-ticker';
-
 import { InitStarAnimation } from './init-stars.types';
 
 export class InitStarsTicker extends AbstractTicker {
@@ -50,7 +48,6 @@ export class InitStarsTicker extends AbstractTicker {
     }
 
     protected onDispose() {
-        Events.emit(Event.ADD_TICKER, { ticker: new StarAnimationTicker() });
         Events.emit(Event.SPACE_INITIALIZED);
     }
 
