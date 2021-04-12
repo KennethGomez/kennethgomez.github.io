@@ -4,6 +4,7 @@ import { Module } from '@kennethgomez/module/module.abstract';
 import { Event } from '@kennethgomez/events/event.enum';
 import { Events } from '@kennethgomez/events/events';
 
+import { App } from '@kennethgomez/app';
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
 import { IAddDisplayObject } from '../events/add-display-object.interface';
 
@@ -69,10 +70,31 @@ export class Space extends Module {
     }
 
     private _onStart() {
-        console.log(this.startView.focusController.nearStartButtonStars);
+        const stars = this.startView.focusController.nearStartButtonStars;
+
         this.startView.dispose();
 
         Events.removeListener(Event.START_BUTTON_CLICK, this._onStart, this);
+
+        const n = stars.length;
+        const increment = 360 / n;
+        const startAngle = 0;
+        for (let i = 0; i < n; i++) {
+            const angle = startAngle + increment * i;
+            const rads = (angle * Math.PI) / 180;
+
+            const tx = 500 + 10 * Math.cos(rads);
+            const ty = 500 + 10 * Math.sin(rads);
+
+            const star = stars[i];
+
+            App.instance.canvas.animations.addAnimation(star.sprite, 'x', 50, {
+                target: tx,
+            });
+            App.instance.canvas.animations.addAnimation(star.sprite, 'y', 50, {
+                target: ty,
+            });
+        }
     }
 
     private _onMouseOut(e: MouseEvent | PIXI.InteractionEvent | TouchEvent) {
