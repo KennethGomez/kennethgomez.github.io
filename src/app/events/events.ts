@@ -17,4 +17,11 @@ export class Events {
             subscription(data);
         }
     }
+
+    public static removeListener<T extends IEventData>(event: Event, callback: EventCallback<T>, context?: any) {
+        const subscriptions = this._subscriptions.get(event);
+        const bind = callback.bind(context);
+
+        this._subscriptions.set(event, subscriptions?.filter((s) => s.toString() !== bind.toString()) ?? []);
+    }
 }

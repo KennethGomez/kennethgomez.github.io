@@ -41,6 +41,9 @@ export class FocusController extends Module {
         this._enterAnimations.clear();
 
         this._clonedStars.clear();
+
+        Events.removeListener(Event.SPACE_BUTTON_HOVER, this._onSpaceButtonHover, this);
+        Events.removeListener(Event.SPACE_BUTTON_OUT, this._onSpaceButtonOut, this);
     }
 
     private _onSpaceButtonHover(event?: INativeEvent<MouseEvent>) {

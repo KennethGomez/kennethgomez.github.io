@@ -71,6 +71,8 @@ export class Space extends Module {
     private _onStart() {
         console.log(this.startView.focusController.nearStartButtonStars);
         this.startView.dispose();
+
+        Events.removeListener(Event.START_BUTTON_CLICK, this._onStart, this);
     }
 
     private _onMouseOut(e: MouseEvent | PIXI.InteractionEvent | TouchEvent) {

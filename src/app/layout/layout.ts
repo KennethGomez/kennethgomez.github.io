@@ -24,12 +24,24 @@ export class Layout extends Module {
         btn.style.visibility = 'visible';
         btn.style.opacity = '1';
 
-        btn.addEventListener('click', () => {
-            btn.style.opacity = '0';
-            btn.style.visibility = 'hidden';
+        btn.addEventListener('click', this._onStartButtonClick);
+    }
 
-            Events.emit(Event.START_BUTTON_CLICK);
-        });
+    private _onStartButtonClick(e: MouseEvent) {
+        const { target } = e;
+
+        if (!target || !(target instanceof HTMLButtonElement)) {
+            return;
+        }
+
+        target.style.opacity = '0';
+        target.style.visibility = 'hidden';
+
+        Events.emit(Event.START_BUTTON_CLICK);
+
+        setTimeout(() => {
+            target.parentElement?.removeChild(target);
+        }, 300);
     }
 
     private _bindSpaceButtons() {
