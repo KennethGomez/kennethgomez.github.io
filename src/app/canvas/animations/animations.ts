@@ -1,4 +1,4 @@
-import { Module } from '../../module/module.abstract';
+import { Module } from '@kennethgomez/module/module.abstract';
 
 import { Animation, AnimationAlgorithm, AnimationValues } from './animation.types';
 import { ObservableAnimation } from './observable-animation/observable-animation';

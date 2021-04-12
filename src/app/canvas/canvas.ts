@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-import { Module } from '../module/module.abstract';
+import { Module } from '@kennethgomez/module/module.abstract';
 
 import { Animations } from './animations/animations';
 import { Ticker } from './ticker/ticker';

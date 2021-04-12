@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
 
-import { INativeEvent } from '../../../../../events/native-event.interface';
-import { get2DVectorDistance } from '../../../../../utils/points';
-import { Module } from '../../../../../module/module.abstract';
-import { Event } from '../../../../../events/event.enum';
-import { Events } from '../../../../../events/events';
-import { App } from '../../../../../app';
+import { INativeEvent } from '@kennethgomez/events/native-event.interface';
+import { get2DVectorDistance } from '@kennethgomez/utils/points';
+import { Module } from '@kennethgomez/module/module.abstract';
+import { Event } from '@kennethgomez/events/event.enum';
+import { Events } from '@kennethgomez/events/events';
+import { App } from '@kennethgomez/app';
 
 import { ObservableAnimation } from '../../../../animations/observable-animation/observable-animation';
 

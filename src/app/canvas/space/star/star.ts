@@ -1,10 +1,10 @@
 import * as PIXI from 'pixi.js';
 
-import { getBetween } from '../../../utils/numbers';
-import { Event } from '../../../events/event.enum';
-import { Events } from '../../../events/events';
+import { getBetween } from '@kennethgomez/utils/numbers';
+import { Event } from '@kennethgomez/events/event.enum';
+import { Events } from '@kennethgomez/events/events';
 
-import { Position } from '../../canvas.types';
+import { Position } from '@kennethgomez/canvas/canvas.types';
 
 import { StarTextureGenerator } from './texture/star-texture-generator';
 

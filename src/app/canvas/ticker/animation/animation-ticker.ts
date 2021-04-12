@@ -1,6 +1,6 @@
-import { AbstractTicker } from '../ticker.abstract';
+import { App } from '@kennethgomez/app';
 
-import { App } from '../../../app';
+import { AbstractTicker } from '../ticker.abstract';
 
 export class AnimationTicker extends AbstractTicker {
     public update(delta: number): void {

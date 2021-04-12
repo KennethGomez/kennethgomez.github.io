@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-import { App } from '../../../../app';
+import { App } from '@kennethgomez/app';
 
 export class StarTextureGenerator {
     private static _base: PIXI.Texture | undefined;

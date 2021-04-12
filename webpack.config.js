@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, './dist');
 
@@ -15,8 +16,8 @@ module.exports = (env, argv) => ({
     devtool: 'source-map',
     context: path.resolve(__dirname, './src'),
     entry: {
-        main: './index.ts',
         polyfill: './polyfill/polyfill.js',
+        main: './index.ts',
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -55,6 +56,7 @@ module.exports = (env, argv) => ({
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        plugins: [new TsconfigPathsPlugin()],
     },
     devServer: {
         contentBase: __dirname,

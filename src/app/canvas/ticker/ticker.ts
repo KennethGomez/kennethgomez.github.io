@@ -1,6 +1,6 @@
-import { Module } from '../../module/module.abstract';
-import { Event } from '../../events/event.enum';
-import { Events } from '../../events/events';
+import { Module } from '@kennethgomez/module/module.abstract';
+import { Event } from '@kennethgomez/events/event.enum';
+import { Events } from '@kennethgomez/events/events';
 
 import { AnimationTicker } from './animation/animation-ticker';
 import { IAddTicker } from './events/add-ticker.interface';

@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 
-import { Module } from '../../module/module.abstract';
-import { Event } from '../../events/event.enum';
-import { Events } from '../../events/events';
+import { Module } from '@kennethgomez/module/module.abstract';
+import { Event } from '@kennethgomez/events/event.enum';
+import { Events } from '@kennethgomez/events/events';
 
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
 import { IAddDisplayObject } from '../events/add-display-object.interface';
