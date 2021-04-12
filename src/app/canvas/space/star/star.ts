@@ -44,7 +44,7 @@ export class Star {
         star.sprite.x = this._position.x;
         star.sprite.y = this._position.y;
 
-        Events.emit(Event.ADD_DISPLAY_OBJECT, { object: star.sprite });
+        this._sprite.parent.addChild(star.sprite);
 
         return star;
     }

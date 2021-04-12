@@ -3,10 +3,9 @@ import * as PIXI from 'pixi.js';
 import { Module } from '@kennethgomez/module/module.abstract';
 import { Event } from '@kennethgomez/events/event.enum';
 import { Events } from '@kennethgomez/events/events';
-
 import { App } from '@kennethgomez/app';
+
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
-import { IAddDisplayObject } from '../events/add-display-object.interface';
 
 import { HoveringController } from './views/controllers/hovering-controller/hovering-controller';
 import { StartView } from './views/start-view/start-view';
@@ -45,7 +44,6 @@ export class Space extends Module {
         Events.emit(Event.ADD_TICKER, { ticker: new InitStarsTicker(this._stars) });
 
         Events.on(Event.SPACE_INITIALIZED, this._onSpaceInitialized, this);
-        Events.on(Event.ADD_DISPLAY_OBJECT, this._onAddDisplayObject, this);
         Events.on(Event.START_BUTTON_CLICK, this._onStart, this);
     }
 
@@ -59,14 +57,6 @@ export class Space extends Module {
     private _onSpaceInitialized() {
         this.startView.start();
         this.hoveringController.start();
-    }
-
-    private _onAddDisplayObject(e?: IAddDisplayObject) {
-        if (!e) {
-            return;
-        }
-
-        this._container.addChild(e.object);
     }
 
     private _onStart() {
