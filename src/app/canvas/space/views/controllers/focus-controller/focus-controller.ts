@@ -37,7 +37,10 @@ export class FocusController extends Module {
     }
 
     protected onDispose() {
+        this._interruptAnimations(this._exitAnimations);
         this._exitAnimations.clear();
+
+        this._interruptAnimations(this._enterAnimations);
         this._enterAnimations.clear();
 
         this._clonedStars.clear();
