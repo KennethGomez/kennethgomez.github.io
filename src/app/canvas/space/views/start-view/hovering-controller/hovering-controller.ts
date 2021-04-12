@@ -12,8 +12,6 @@ import { ObservableAnimation } from '../../../../animations/observable-animation
 import { Star } from '../../../star/star';
 
 export class HoveringController extends Module {
-    private _stars: Star[] | unknown;
-
     private readonly _starsFadeInAnimations: Map<Star, ObservableAnimation<PIXI.Sprite, number>>;
     private readonly _starsFadeOutAnimations: Map<Star, ObservableAnimation<PIXI.Sprite, number>>;
 
@@ -24,9 +22,7 @@ export class HoveringController extends Module {
         this._starsFadeOutAnimations = new Map();
     }
 
-    public start(stars: Star[]) {
-        this._stars = stars;
-
+    public start() {
         Events.on(Event.SPACE_POINTER_MOVE, this._onSpacePointerOver, this);
         Events.on(Event.SPACE_POINTER_OUT, this._onSpacePointerOut, this);
     }

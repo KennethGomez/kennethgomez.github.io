@@ -49,6 +49,10 @@ export class Star {
         return star;
     }
 
+    public destroy() {
+        this._sprite.destroy({ children: true });
+    }
+
     private _buildSprite(): PIXI.Sprite {
         const texture = StarTextureGenerator.base;
 

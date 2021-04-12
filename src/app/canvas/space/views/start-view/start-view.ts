@@ -18,7 +18,8 @@ export class StartView extends Module {
     public start(stars: Star[]) {
         this._stars = stars;
 
-        this.hoveringController.start(stars);
+        this.hoveringController.start();
+        this.focusController.start();
     }
 
     public get hoveringController(): HoveringController {

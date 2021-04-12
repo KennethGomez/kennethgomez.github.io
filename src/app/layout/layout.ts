@@ -21,7 +21,7 @@ export class Layout extends Module {
             return;
         }
 
-        btn.style.display = 'block';
+        btn.style.visibility = 'visible';
         btn.style.opacity = '1';
     }
 
