@@ -7,6 +7,7 @@ import { Events } from '@kennethgomez/events/events';
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
 import { IAddDisplayObject } from '../events/add-display-object.interface';
 
+import { HoveringController } from './views/controllers/hovering-controller/hovering-controller';
 import { StartView } from './views/start-view/start-view';
 import { Star } from './star/star';
 
@@ -22,6 +23,7 @@ export class Space extends Module {
     public constructor() {
         super([
             new StartView(),
+            new HoveringController(),
         ]);
 
         this._stars = [];
@@ -43,6 +45,7 @@ export class Space extends Module {
 
         Events.on(Event.SPACE_INITIALIZED, this._onSpaceInitialized, this);
         Events.on(Event.ADD_DISPLAY_OBJECT, this._onAddDisplayObject, this);
+        Events.on(Event.START_BUTTON_CLICK, this._onStart, this);
     }
 
     protected onDispose() {
@@ -53,7 +56,8 @@ export class Space extends Module {
     }
 
     private _onSpaceInitialized() {
-        this.startView.start(this._stars);
+        this.startView.start();
+        this.hoveringController.start();
     }
 
     private _onAddDisplayObject(e?: IAddDisplayObject) {
@@ -62,6 +66,11 @@ export class Space extends Module {
         }
 
         this._container.addChild(e.object);
+    }
+
+    private _onStart() {
+        console.log(this.startView.focusController.nearStartButtonStars);
+        this.startView.dispose();
     }
 
     private _onMouseOut(e: MouseEvent | PIXI.InteractionEvent | TouchEvent) {
@@ -87,6 +96,10 @@ export class Space extends Module {
 
     public get startView(): StartView {
         return this.getSubmodule(StartView);
+    }
+
+    public get hoveringController(): HoveringController {
+        return this.getSubmodule(HoveringController);
     }
 
     public get container(): PIXI.Container {

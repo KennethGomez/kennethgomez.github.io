@@ -23,6 +23,13 @@ export class Layout extends Module {
 
         btn.style.visibility = 'visible';
         btn.style.opacity = '1';
+
+        btn.addEventListener('click', () => {
+            btn.style.opacity = '0';
+            btn.style.visibility = 'hidden';
+
+            Events.emit(Event.START_BUTTON_CLICK);
+        });
     }
 
     private _bindSpaceButtons() {

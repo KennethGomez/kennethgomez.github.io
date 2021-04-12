@@ -13,6 +13,8 @@ import { Star } from '../../../star/star';
 import { StarFocusAnimation } from './focus-controller.types';
 
 export class FocusController extends Module {
+    private readonly _clonedStars: Set<Star>;
+
     private readonly _enterAnimations: Map<Star, StarFocusAnimation>;
     private readonly _exitAnimations: Map<Star, StarFocusAnimation>;
 
@@ -20,6 +22,8 @@ export class FocusController extends Module {
 
     public constructor() {
         super();
+
+        this._clonedStars = new Set();
 
         this._enterAnimations = new Map();
         this._exitAnimations = new Map();
@@ -30,6 +34,13 @@ export class FocusController extends Module {
     public start() {
         Events.on(Event.SPACE_BUTTON_HOVER, this._onSpaceButtonHover, this);
         Events.on(Event.SPACE_BUTTON_OUT, this._onSpaceButtonOut, this);
+    }
+
+    protected onDispose() {
+        this._exitAnimations.clear();
+        this._enterAnimations.clear();
+
+        this._clonedStars.clear();
     }
 
     private _onSpaceButtonHover(event?: INativeEvent<MouseEvent>) {
@@ -47,9 +58,7 @@ export class FocusController extends Module {
 
         // If the animation has not ended yet we should use already
         // cloned stars instead of cloning new stars
-        const stars = this._isFocusAnimationRunning
-            ? Array.from(this._exitAnimations.keys())
-            : this._getCloseRectChildren(bounds).map((s) => s.clone());
+        const stars = this._getOrCloneStars(bounds);
 
         const targets = this._getStarPositionTargetsFor(stars, bounds);
 
@@ -188,6 +197,7 @@ export class FocusController extends Module {
         animations.alpha
             .on('finish', () => {
                 this._exitAnimations.delete(star);
+                this._clonedStars.delete(star);
 
                 star.destroy();
 
@@ -221,5 +231,29 @@ export class FocusController extends Module {
         }
 
         animations.clear();
+    }
+
+    private _getOrCloneStars(bounds: DOMRect): Star[] {
+        if (this._clonedStars.size === 0) {
+            for (const star of this._getCloseRectChildren(bounds).map((s) => s.clone())) {
+                this._clonedStars.add(star);
+            }
+        }
+
+        return Array.from(this._clonedStars);
+    }
+
+    public get nearStartButtonStars(): Star[] {
+        const btn = document.getElementById('start-btn');
+
+        if (!btn) {
+            return [];
+        }
+
+        const bounds = btn.getBoundingClientRect();
+
+        // If the animation has not ended yet we should use already
+        // cloned stars instead of cloning new stars
+        return this._getOrCloneStars(bounds);
     }
 }

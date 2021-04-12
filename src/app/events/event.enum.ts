@@ -9,4 +9,6 @@ export enum Event {
 
     SPACE_BUTTON_HOVER,
     SPACE_BUTTON_OUT,
+
+    START_BUTTON_CLICK,
 }
