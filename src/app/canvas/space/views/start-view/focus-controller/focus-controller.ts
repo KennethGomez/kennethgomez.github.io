@@ -156,7 +156,7 @@ export class FocusController extends Module {
 
             targets.splice(bestTarget.index, 1);
 
-            this._addEnterAnimation(star, bestTarget.target, 1, 40);
+            this._addEnterAnimation(star, bestTarget.target, 1, 30);
         }
     }
 
