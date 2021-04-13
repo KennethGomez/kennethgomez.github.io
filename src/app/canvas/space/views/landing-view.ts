@@ -103,24 +103,24 @@ export class LandingView extends Module {
         this._moveCircle(circles[step % size], CIRCLE_OFFSET, -CIRCLE_OFFSET * 1.5);
         this._moveCircle(circles[(step + 1) % size], CIRCLE_OFFSET, CIRCLE_OFFSET * 1.5);
         this._moveCircle(circles[(step + 2) % size], -CIRCLE_OFFSET * 2, 0)
-            .on('finish', () => this._moveCircles(step + 1));
+            .on('finish', () => setTimeout(() => this._moveCircles(step + 1), 200));
     }
 
     private _moveCircle(
         circle: PIXI.Container, offsetX: number, offsetY: number,
     ): ObservableAnimation<PIXI.Container, number> {
-        App.instance.canvas.animations.addAnimation(circle, 'alpha', 25, {
+        App.instance.canvas.animations.addAnimation(circle, 'alpha', 20, {
             target: 0.75,
         }).on('finish', () => {
-            App.instance.canvas.animations.addAnimation(circle, 'alpha', 25, {
+            App.instance.canvas.animations.addAnimation(circle, 'alpha', 20, {
                 target: 1,
             });
         });
 
-        App.instance.canvas.animations.addAnimation(circle, 'x', 50, {
+        App.instance.canvas.animations.addAnimation(circle, 'x', 40, {
             target: circle.x + offsetX,
         });
-        return App.instance.canvas.animations.addAnimation(circle, 'y', 50, {
+        return App.instance.canvas.animations.addAnimation(circle, 'y', 40, {
             target: circle.y + offsetY,
         });
     }
