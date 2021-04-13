@@ -7,9 +7,9 @@ import { Event } from '@kennethgomez/events/event.enum';
 import { Events } from '@kennethgomez/events/events';
 import { App } from '@kennethgomez/app';
 
-import { ObservableAnimation } from '../../../../animations/observable-animation/observable-animation';
+import { ObservableAnimation } from '../../../animations/observable-animation/observable-animation';
 
-import { Star } from '../../../star/star';
+import { Star } from '../../star/star';
 
 export class HoveringController extends Module {
     private readonly _starsFadeInAnimations: Map<Star, ObservableAnimation<PIXI.Sprite, number>>;

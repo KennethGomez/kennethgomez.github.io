@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-import { ObservableAnimation } from '../../../../animations/observable-animation/observable-animation';
+import { ObservableAnimation } from '../../../animations/observable-animation/observable-animation';
 
 export type StarFocusAnimation = {
     alpha: ObservableAnimation<PIXI.Sprite, number>

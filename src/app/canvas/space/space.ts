@@ -5,9 +5,10 @@ import { Event } from '@kennethgomez/events/event.enum';
 import { Events } from '@kennethgomez/events/events';
 import { App } from '@kennethgomez/app';
 
+import { LandingView } from '@kennethgomez/canvas/space/views/landing-view';
 import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
 
-import { HoveringController } from './views/controllers/hovering-controller/hovering-controller';
+import { HoveringController } from './controllers/hovering-controller/hovering-controller';
 import { StartView } from './views/start-view/start-view';
 import { Star } from './star/star';
 
@@ -23,6 +24,7 @@ export class Space extends Module {
     public constructor() {
         super([
             new StartView(),
+            new LandingView(),
             new HoveringController(),
         ]);
 
@@ -54,6 +56,10 @@ export class Space extends Module {
         window.removeEventListener('touchend', this._onMouseOut);
     }
 
+    public addChild(...objects: PIXI.DisplayObject[]) {
+        this._container.addChild(...objects);
+    }
+
     private _onSpaceInitialized() {
         this.startView.start();
         this.hoveringController.start();
@@ -66,25 +72,7 @@ export class Space extends Module {
 
         Events.removeListener(Event.START_BUTTON_CLICK, this._onStart, this);
 
-        const n = stars.length;
-        const increment = 360 / n;
-        const startAngle = 0;
-        for (let i = 0; i < n; i++) {
-            const angle = startAngle + increment * i;
-            const rads = (angle * Math.PI) / 180;
-
-            const tx = 500 + 10 * Math.cos(rads);
-            const ty = 500 + 10 * Math.sin(rads);
-
-            const star = stars[i];
-
-            App.instance.canvas.animations.addAnimation(star.sprite, 'x', 50, {
-                target: tx,
-            });
-            App.instance.canvas.animations.addAnimation(star.sprite, 'y', 50, {
-                target: ty,
-            });
-        }
+        this.landingView.start(stars);
     }
 
     private _onMouseOut(e: MouseEvent | PIXI.InteractionEvent | TouchEvent) {
@@ -110,6 +98,10 @@ export class Space extends Module {
 
     public get startView(): StartView {
         return this.getSubmodule(StartView);
+    }
+
+    public get landingView(): LandingView {
+        return this.getSubmodule(LandingView);
     }
 
     public get hoveringController(): HoveringController {

@@ -8,7 +8,7 @@ import { Events } from '@kennethgomez/events/events';
 import { isPhone } from '@kennethgomez/utils/window';
 import { App } from '@kennethgomez/app';
 
-import { Star } from '../../../star/star';
+import { Star } from '../../star/star';
 
 import { StarFocusAnimation } from './focus-controller.types';
 
