@@ -1,7 +1,7 @@
 export enum Event {
     SPACE_INITIALIZED,
     ADD_TICKER,
-    ADD_DISPLAY_OBJECT,
+    LOADING_CONTROLLER_END,
 
     // Space interactions
     SPACE_POINTER_MOVE,
