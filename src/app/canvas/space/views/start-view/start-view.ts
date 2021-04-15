@@ -1,8 +1,8 @@
-import { Module } from '@kennethgomez/module/module.abstract';
+import { AbstractModule } from '@kennethgomez/module';
 
-import { FocusController } from '../../controllers/focus-controller/focus-controller';
+import { FocusController } from '../../controllers/focus-controller';
 
-export class StartView extends Module {
+export class StartView extends AbstractModule {
     public constructor() {
         super([
             new FocusController(),

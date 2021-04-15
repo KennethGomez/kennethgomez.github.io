@@ -1,18 +1,16 @@
 import * as PIXI from 'pixi.js';
 
-import { Module } from '@kennethgomez/module/module.abstract';
-import { Event } from '@kennethgomez/events/event.enum';
-import { Events } from '@kennethgomez/events/events';
-import { App } from '@kennethgomez/app';
+import { AbstractModule } from '@kennethgomez/module';
+import { Events, Event } from '@kennethgomez/events';
 
-import { LandingView } from '@kennethgomez/canvas/space/views/landing-view';
-import { InitStarsTicker } from '../ticker/space/star/init-stars/init-stars-ticker';
+import { InitStarsTicker } from '../ticker/space/star/init-stars';
 
-import { HoveringController } from './controllers/hovering-controller/hovering-controller';
-import { StartView } from './views/start-view/start-view';
+import { HoveringController } from './controllers/hovering-controller';
+import { LandingView } from './views/landing-view';
+import { StartView } from './views/start-view';
 import { Star } from './star/star';
 
-export class Space extends Module {
+export class Space extends AbstractModule {
     /**
      * Amount of star per pixel²
      */

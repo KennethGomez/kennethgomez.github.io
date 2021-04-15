@@ -1,8 +1,7 @@
-import { Module } from '@kennethgomez/module/module.abstract';
-import { Event } from '@kennethgomez/events/event.enum';
-import { Events } from '@kennethgomez/events/events';
+import { AbstractModule } from '@kennethgomez/module';
+import { Events, Event } from '@kennethgomez/events';
 
-export class Layout extends Module {
+export class Layout extends AbstractModule {
     public constructor() {
         super();
 

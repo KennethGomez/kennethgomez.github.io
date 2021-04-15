@@ -1,5 +1,4 @@
-import { Event } from '@kennethgomez/events/event.enum';
-import { Events } from '@kennethgomez/events/events';
+import { Events, Event } from '@kennethgomez/events';
 
 import { Star } from '../../../../space/star/star';
 

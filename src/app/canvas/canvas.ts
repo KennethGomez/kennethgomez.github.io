@@ -1,12 +1,12 @@
 import * as PIXI from 'pixi.js';
 
-import { Module } from '@kennethgomez/module/module.abstract';
+import { AbstractModule } from '@kennethgomez/module';
 
-import { Animations } from './animations/animations';
-import { Ticker } from './ticker/ticker';
-import { Space } from './space/space';
+import { Animations } from './animations';
+import { Ticker } from './ticker';
+import { Space } from './space';
 
-export class Canvas extends Module {
+export class Canvas extends AbstractModule {
     public static readonly CANVAS_BACKGROUND: number = 0x101010;
 
     private readonly _app: PIXI.Application;

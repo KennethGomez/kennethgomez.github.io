@@ -1,10 +1,10 @@
-import { Module } from '@kennethgomez/module/module.abstract';
+import { AbstractModule } from '@kennethgomez/module';
 
 import { Animation, AnimationAlgorithm, AnimationValues } from './animation.types';
-import { ObservableAnimation } from './observable-animation/observable-animation';
+import { ObservableAnimation } from './observable-animation';
 import { easeInOutQuad } from './algorithms/ease-in-out-quad';
 
-export class Animations extends Module {
+export class Animations extends AbstractModule {
     private readonly _animations: Map<number, ObservableAnimation<any, any>>;
 
     private _lastId: number;

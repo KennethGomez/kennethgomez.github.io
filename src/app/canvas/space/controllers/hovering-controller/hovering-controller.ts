@@ -1,17 +1,15 @@
 import * as PIXI from 'pixi.js';
 
-import { INativeEvent } from '@kennethgomez/events/native-event.interface';
+import { Events, Event, INativeEvent } from '@kennethgomez/events';
 import { get2DVectorDistance } from '@kennethgomez/utils/points';
-import { Module } from '@kennethgomez/module/module.abstract';
-import { Event } from '@kennethgomez/events/event.enum';
-import { Events } from '@kennethgomez/events/events';
+import { AbstractModule } from '@kennethgomez/module';
 import { App } from '@kennethgomez/app';
 
-import { ObservableAnimation } from '../../../animations/observable-animation/observable-animation';
+import { ObservableAnimation } from '../../../animations/observable-animation';
 
 import { Star } from '../../star/star';
 
-export class HoveringController extends Module {
+export class HoveringController extends AbstractModule {
     private readonly _starsFadeInAnimations: Map<Star, ObservableAnimation<PIXI.Sprite, number>>;
     private readonly _starsFadeOutAnimations: Map<Star, ObservableAnimation<PIXI.Sprite, number>>;
 
