@@ -7,7 +7,7 @@ import { CircleMotionController } from '../controllers/circle-motion-controller/
 import { Star } from '../star/star';
 
 export class LandingView extends Module {
-    public static readonly MAX_CIRCLE_ANIMATION_STEP = 6;
+    public static readonly MAX_CIRCLE_ANIMATION_STEP = 3;
 
     private readonly _leftCircle: PIXI.Container;
     private readonly _topCircle: PIXI.Container;
@@ -51,28 +51,48 @@ export class LandingView extends Module {
     private _moveLoadingCircles(step: number = 0) {
         const { CIRCLE_OFFSET } = CircleMotionController;
 
-        const circles = [
-            this._leftCircle,
-            this._topCircle,
-            this._rightCircle,
-        ];
-
         if (step >= LandingView.MAX_CIRCLE_ANIMATION_STEP) {
-            this._startLanding();
+            setTimeout(() => {
+                this._startLanding();
+            }, 250);
 
             return;
         }
 
-        const size = circles.length;
+        const size = this.circles.length;
 
-        this.motionController.moveCircle(circles[step % size], CIRCLE_OFFSET, -CIRCLE_OFFSET * 1.5);
-        this.motionController.moveCircle(circles[(step + 1) % size], CIRCLE_OFFSET, CIRCLE_OFFSET * 1.5);
-        this.motionController.moveCircle(circles[(step + 2) % size], -CIRCLE_OFFSET * 2, 0)
+        this.motionController.moveCircle(this.circles[step % size], CIRCLE_OFFSET, -CIRCLE_OFFSET * 1.5);
+        this.motionController.moveCircle(this.circles[(step + 1) % size], CIRCLE_OFFSET, CIRCLE_OFFSET * 1.5);
+        this.motionController.moveCircle(this.circles[(step + 2) % size], -CIRCLE_OFFSET * 2, 0)
             .on('finish', () => setTimeout(() => this._moveLoadingCircles(step + 1), 200));
     }
 
     private _startLanding() {
-        console.log('landing');
+        const { CIRCLE_OFFSET } = CircleMotionController;
+
+        this.motionController.moveCircle(this._leftCircle, CIRCLE_OFFSET, 0);
+        this.motionController.moveCircle(this._rightCircle, -CIRCLE_OFFSET, CIRCLE_OFFSET * 1.5)
+            .on('finish', () => setTimeout(this._makeNavigator.bind(this), 250));
+    }
+
+    private _makeNavigator() {
+        const { CIRCLE_OFFSET } = CircleMotionController;
+
+        const target = (window.innerWidth / 2) - CIRCLE_OFFSET * 1.5;
+
+        for (let i = 0; i < this.circles.length; i++) {
+            const circle = this.circles[i];
+
+            this.motionController.moveCircle(circle, target, 0);
+        }
+    }
+
+    public get circles(): PIXI.Container[] {
+        return [
+            this._leftCircle,
+            this._topCircle,
+            this._rightCircle,
+        ];
     }
 
     public get motionController(): CircleMotionController {

@@ -58,6 +58,12 @@ export class CircleMotionController extends Module {
     public moveCircle(
         circle: PIXI.Container, offsetX: number, offsetY: number,
     ): ObservableAnimation<PIXI.Container, number> {
+        return this.moveAbsoluteCircle(circle, circle.x + offsetX, circle.y + offsetY);
+    }
+
+    public moveAbsoluteCircle(
+        circle: PIXI.Container, x: number, y: number,
+    ): ObservableAnimation<PIXI.Container, number> {
         App.instance.canvas.animations.addAnimation(circle, 'alpha', 20, {
             target: 0.75,
         }).on('finish', () => {
@@ -67,10 +73,10 @@ export class CircleMotionController extends Module {
         });
 
         App.instance.canvas.animations.addAnimation(circle, 'x', 40, {
-            target: circle.x + offsetX,
+            target: x,
         });
         return App.instance.canvas.animations.addAnimation(circle, 'y', 40, {
-            target: circle.y + offsetY,
+            target: y,
         });
     }
 }
