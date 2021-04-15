@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js';
 
-import { AbstractModule } from '@kennethgomez/module';
+import { Module } from '@kennethgomez/module/module.abstract';
 import { App } from '@kennethgomez/app';
 
-import { ObservableAnimation } from '../../../animations/observable-animation';
+import { ObservableAnimation } from '../../../animations/observable-animation/observable-animation';
 
-export class CircleMotionController extends AbstractModule {
+export class CircleMotionController extends Module {
     public static readonly CIRCLE_SIZE = 10;
     public static readonly CIRCLE_OFFSET = 25;
 

@@ -1,9 +1,8 @@
-import { AbstractModule } from '@kennethgomez/module';
+import { Module } from './module/module.abstract';
+import { Canvas } from './canvas/canvas';
+import { Layout } from './layout/layout';
 
-import { Canvas } from './canvas';
-import { Layout } from './layout';
-
-export class App extends AbstractModule {
+export class App extends Module {
     public static _instance: App = new App();
 
     public static get instance() {

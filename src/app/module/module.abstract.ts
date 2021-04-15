@@ -1,8 +1,8 @@
-export abstract class AbstractModule {
-    private readonly _submodules: Map<string, AbstractModule>;
+export abstract class Module {
+    private readonly _submodules: Map<string, Module>;
 
     protected constructor(
-        submodules: AbstractModule[] = [],
+        submodules: Module[] = [],
     ) {
         this._submodules = new Map();
 
@@ -23,7 +23,7 @@ export abstract class AbstractModule {
         }
     }
 
-    protected getSubmodule<T extends AbstractModule>(submodule: typeof AbstractModule): T {
+    protected getSubmodule<T extends Module>(submodule: typeof Module): T {
         return this._submodules.get(submodule.name) as T;
     }
 

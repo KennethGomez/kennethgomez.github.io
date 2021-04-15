@@ -1,11 +1,12 @@
-import { AbstractModule } from '@kennethgomez/module';
-import { Events, Event } from '@kennethgomez/events';
+import { Module } from '@kennethgomez/module/module.abstract';
+import { Event } from '@kennethgomez/events/event.enum';
+import { Events } from '@kennethgomez/events/events';
 
 import { AnimationTicker } from './animation/animation-ticker';
 import { IAddTicker } from './events/add-ticker.interface';
 import { AbstractTicker } from './ticker.abstract';
 
-export class Ticker extends AbstractModule {
+export class Ticker extends Module {
     private _tickers: AbstractTicker[];
 
     public constructor() {

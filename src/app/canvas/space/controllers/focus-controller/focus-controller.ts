@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
 
 import { get2DVectorDistance, get2DVectorToRectDistance } from '@kennethgomez/utils/points';
-import { Events, Event, INativeEvent } from '@kennethgomez/events';
-import { AbstractModule } from '@kennethgomez/module';
+import { INativeEvent } from '@kennethgomez/events/native-event.interface';
+import { Module } from '@kennethgomez/module/module.abstract';
+import { Event } from '@kennethgomez/events/event.enum';
+import { Events } from '@kennethgomez/events/events';
 import { isPhone } from '@kennethgomez/utils/window';
 import { App } from '@kennethgomez/app';
 
@@ -10,7 +12,7 @@ import { Star } from '../../star/star';
 
 import { StarFocusAnimation } from './focus-controller.types';
 
-export class FocusController extends AbstractModule {
+export class FocusController extends Module {
     private readonly _clonedStars: Set<Star>;
 
     private readonly _enterAnimations: Map<Star, StarFocusAnimation>;

@@ -1,4 +1,4 @@
-import { IEventData } from '@kennethgomez/events';
+import { IEventData } from '@kennethgomez/events/event-data.interface';
 
 import { AbstractTicker } from '../ticker.abstract';
 

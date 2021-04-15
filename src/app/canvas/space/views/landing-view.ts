@@ -1,12 +1,12 @@
 import * as PIXI from 'pixi.js';
 
-import { AbstractModule } from '@kennethgomez/module';
+import { Module } from '@kennethgomez/module/module.abstract';
 import { App } from '@kennethgomez/app';
 
-import { CircleMotionController } from '../../controllers/circle-motion-controller';
-import { Star } from '../../star/star';
+import { CircleMotionController } from '../controllers/circle-motion-controller/circle-motion-controller';
+import { Star } from '../star/star';
 
-export class LandingView extends AbstractModule {
+export class LandingView extends Module {
     public static readonly MAX_CIRCLE_ANIMATION_STEP = 6;
 
     private readonly _leftCircle: PIXI.Container;

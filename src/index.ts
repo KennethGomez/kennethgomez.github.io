@@ -1,5 +1,5 @@
 import '../styles/index.sass';
 
-import { App } from '@kennethgomez/app';
+import { App } from './app/app';
 
 App.instance.init();
