@@ -59,7 +59,7 @@ module.exports = (env, argv) => ({
         plugins: [new TsconfigPathsPlugin()],
     },
     devServer: {
-        contentBase: __dirname,
+        static: __dirname,
         compress: true,
         port: 8080,
         host: '0.0.0.0',
