@@ -43,6 +43,7 @@ module.exports = (env, argv) => ({
                             sourceMap: true,
                         },
                     },
+                    'postcss-loader',
                     // Compiles Sass to CSS
                     'sass-loader',
                 ],
