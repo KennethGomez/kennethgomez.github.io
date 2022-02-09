@@ -1,8 +1,6 @@
 import * as PIXI from 'pixi.js';
 
 import { getBetween } from '@kennethgomez/utils/numbers';
-import { Event } from '@kennethgomez/events/event.enum';
-import { Events } from '@kennethgomez/events/events';
 
 import { Position } from '@kennethgomez/canvas/canvas.types';
 
@@ -22,7 +20,7 @@ export class Star {
         [10, 0xEFABE8], // purple
         [30, 0xABCDEF], // blue
         [30, 0xFFFFFF], // white
-    ]
+    ];
     private static readonly _starColors: number[] = Star._computeStarColorProbabilities();
 
     private readonly _sprite: PIXI.Sprite;

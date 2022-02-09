@@ -8,7 +8,7 @@ import { AbstractTicker } from '../../../ticker.abstract';
 import { InitStarAnimation } from './init-stars.types';
 
 export class InitStarsTicker extends AbstractTicker {
-    private readonly _starAnimations: InitStarAnimation[]
+    private readonly _starAnimations: InitStarAnimation[];
 
     private _remainingDelay: number;
 
@@ -53,7 +53,7 @@ export class InitStarsTicker extends AbstractTicker {
 
     private _initStarAnimations(): InitStarAnimation[] {
         return this._stars.map((star: Star) => {
-            const yVelocity = (Math.random() * 50) + 10;
+            const yVelocity = (Math.random() * 75) + 10;
 
             return {
                 star,
@@ -72,7 +72,7 @@ export class InitStarsTicker extends AbstractTicker {
             sprite.y = targetY;
         }
 
-        sprite.alpha += 0.01;
+        sprite.alpha += this._getSpriteAlphaStep(targetY);
 
         const targetAlpha = brightness / 0xFF;
 
@@ -81,5 +81,15 @@ export class InitStarsTicker extends AbstractTicker {
         }
 
         return sprite.alpha === targetAlpha && sprite.y === targetY;
+    }
+
+    private _getSpriteAlphaStep(targetY: number): number {
+        const highAlpha = 0.01;
+        const lowAlpha = 0.0025;
+
+        const alphaDiff = lowAlpha - highAlpha;
+        const stepPerHeightPixelAlpha = alphaDiff / window.innerHeight;
+
+        return lowAlpha - (stepPerHeightPixelAlpha * targetY);
     }
 }
