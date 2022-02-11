@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+
 import { App } from '@kennethgomez/app';
 
 import { AbstractTicker } from '../ticker.abstract';
@@ -16,7 +18,12 @@ export class AnimationTicker extends AbstractTicker {
             const progressValue = (values.target - values.initial) * fn;
             const propertyValue = progressValue + values.initial;
 
-            object[property] = propertyValue;
+            if (object[property] instanceof PIXI.ObservablePoint) {
+                object[property].x = propertyValue;
+                object[property].y = propertyValue;
+            } else {
+                object[property] = propertyValue;
+            }
 
             animation.update(propertyValue);
             animation.updateProgress();

@@ -1,9 +1,11 @@
+import * as PIXI from 'pixi.js';
+
 import { Animation } from '../animation.types';
 
 type ObservableEvent = 'update' | 'finish' | 'interruption';
 
 export class ObservableAnimation<T, K> {
-    private readonly _subscriptions: Map<ObservableEvent, ((a: this) => void)[]>
+    private readonly _subscriptions: Map<ObservableEvent, ((a: this) => void)[]>;
 
     private _currentValue: K;
     private _progress: number;
@@ -16,7 +18,13 @@ export class ObservableAnimation<T, K> {
 
         const { object, property, values } = this._data;
 
-        const current = object[property] as unknown as K;
+        let current;
+
+        if (object[property] instanceof PIXI.ObservablePoint) {
+            current = (object[property] as unknown as PIXI.ObservablePoint).x as unknown as K;
+        } else {
+            current = object[property] as unknown as K;
+        }
 
         if (!values.initial) {
             values.initial = current;

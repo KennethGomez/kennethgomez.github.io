@@ -3,9 +3,10 @@ import * as PIXI from 'pixi.js';
 import { Module } from '@kennethgomez/module/module.abstract';
 import { App } from '@kennethgomez/app';
 
+import { AnimationValues } from '@kennethgomez/canvas/animations/animation.types';
 import { ObservableAnimation } from '../../../animations/observable-animation/observable-animation';
 
-export class CircleMotionController extends Module {
+export class StarCircleController extends Module {
     public static readonly CIRCLE_SIZE = 10;
     public static readonly CIRCLE_OFFSET = 25;
 
@@ -34,8 +35,8 @@ export class CircleMotionController extends Module {
             const angle = startAngle + increment * i;
             const rads = (angle * Math.PI) / 180;
 
-            const tx = x + CircleMotionController.CIRCLE_SIZE * Math.cos(rads);
-            const ty = y + CircleMotionController.CIRCLE_SIZE * Math.sin(rads);
+            const tx = x + StarCircleController.CIRCLE_SIZE * Math.cos(rads);
+            const ty = y + StarCircleController.CIRCLE_SIZE * Math.sin(rads);
 
             const star = stars.children[i];
 
@@ -78,5 +79,21 @@ export class CircleMotionController extends Module {
         return App.instance.canvas.animations.addAnimation(circle, 'y', 40, {
             target: y,
         });
+    }
+
+    public addAnimationToStars<K>(
+        stars: PIXI.Container, property: keyof PIXI.DisplayObject, duration: number, values: AnimationValues<K>,
+    ): ObservableAnimation<PIXI.DisplayObject, K> | undefined {
+        const n = stars.children.length;
+
+        let lastAnimation;
+
+        for (let i = 0; i < n; i++) {
+            const star = stars.children[i];
+
+            lastAnimation = App.instance.canvas.animations.addAnimation(star, property, duration, values);
+        }
+
+        return lastAnimation;
     }
 }
