@@ -24,7 +24,7 @@ export class StarCircleController extends Module {
 
     public makeCircle(
         stars: PIXI.Container, x: number, y: number,
-    ): ObservableAnimation<PIXI.DisplayObject, number> | undefined {
+    ): ObservableAnimation<PIXI.Sprite, number> | undefined {
         const n = stars.children.length;
         const increment = 360 / n;
         const startAngle = 0;
@@ -38,9 +38,10 @@ export class StarCircleController extends Module {
             const tx = x + StarCircleController.CIRCLE_SIZE * Math.cos(rads);
             const ty = y + StarCircleController.CIRCLE_SIZE * Math.sin(rads);
 
-            const star = stars.children[i];
+            const star = stars.children[i] as PIXI.Sprite;
 
             star.scale.set(1);
+            star.tint = 0xffffff;
 
             App.instance.canvas.animations.addAnimation(star, 'x', 50, {
                 target: tx,
