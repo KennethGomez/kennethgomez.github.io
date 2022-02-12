@@ -1,5 +1,3 @@
-import * as PIXI from 'pixi.js';
-
 import { Animation } from '../animation.types';
 
 type ObservableEvent = 'update' | 'finish' | 'interruption';
@@ -18,13 +16,7 @@ export class ObservableAnimation<T, K> {
 
         const { object, property, values } = this._data;
 
-        let current;
-
-        if (object[property] instanceof PIXI.ObservablePoint) {
-            current = (object[property] as unknown as PIXI.ObservablePoint).x as unknown as K;
-        } else {
-            current = object[property] as unknown as K;
-        }
+        const current = object[property] as unknown as K;
 
         if (!values.initial) {
             values.initial = current;
